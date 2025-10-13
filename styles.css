@@ -1,0 +1,1094 @@
+/* Fuente personalizada Banthern */
+@font-face {
+  font-family: 'Banthern';
+  src: url('Banthern Demo.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Reset y configuración base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Banthern', 'Outfit', sans-serif;
+}
+
+:root {
+  --forest-dark: #0a1a0a;
+  --forest-green: #1a3a1a;
+  --forest-light: #2d5a2d;
+  --magic-purple: #6a4c93;
+  --magic-pink: #ff6b9d;
+  --magic-blue: #4ecdc4;
+  --magic-gold: #ffd700;
+  --magic-silver: #c0c0c0;
+  --mist-white: rgba(255, 255, 255, 0.1);
+  --sparkle-gold: #ffd700;
+}
+
+body {
+  font-family: 'Banthern', 'Outfit', sans-serif;
+  background: linear-gradient(135deg, var(--forest-dark) 0%, var(--forest-green) 50%, var(--forest-dark) 100%);
+  color: #ffffff;
+  overflow-x: hidden;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Fondo del bosque encantado */
+.bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  overflow: hidden;
+  background: 
+    url('https://i.redd.it/4ska4t20uy1d1.gif') center/cover no-repeat,
+    linear-gradient(to bottom, 
+      #1a3a1a 0%,
+      #2d5a2d 30%,
+      #1a3a1a 70%,
+      #0a1a0a 100%
+    );
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/* Canvas para estrellas */
+#stars {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+/* Niebla mágica - Deshabilitada para evitar movimiento horizontal */
+.mist {
+  display: none;
+}
+
+/* Árboles del bosque animados */
+.trees {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/* Árbol 1 - Gran árbol del fondo */
+.trees::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 10%;
+  width: 80px;
+  height: 200px;
+  background: linear-gradient(to right, 
+    #2d4a2d 0%,
+    #1a3a1a 30%,
+    #2d4a2d 70%,
+    #1a3a1a 100%
+  );
+  border-radius: 40px 40px 0 0;
+  animation: treeSway1 8s ease-in-out infinite;
+  box-shadow: inset -10px 0 20px rgba(0,0,0,0.3);
+}
+
+/* Árbol 2 - Árbol mediano */
+.trees::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 15%;
+  width: 60px;
+  height: 150px;
+  background: linear-gradient(to right, 
+    #1a3a1a 0%,
+    #2d4a2d 50%,
+    #1a3a1a 100%
+  );
+  border-radius: 30px 30px 0 0;
+  animation: treeSway2 6s ease-in-out infinite;
+  box-shadow: inset -8px 0 15px rgba(0,0,0,0.3);
+}
+
+/* Crear más árboles con pseudo-elementos adicionales */
+.trees {
+  background-image: 
+    /* Árbol 3 */
+    linear-gradient(45deg, transparent 30%, #1a3a1a 30%, #1a3a1a 35%, transparent 35%),
+    linear-gradient(-45deg, transparent 30%, #1a3a1a 30%, #1a3a1a 35%, transparent 35%),
+    /* Árbol 4 */
+    linear-gradient(45deg, transparent 60%, #2d4a2d 60%, #2d4a2d 65%, transparent 65%),
+    linear-gradient(-45deg, transparent 60%, #2d4a2d 60%, #2d4a2d 65%, transparent 65%),
+    /* Árbol 5 */
+    linear-gradient(45deg, transparent 80%, #1a3a1a 80%, #1a3a1a 85%, transparent 85%),
+    linear-gradient(-45deg, transparent 80%, #1a3a1a 80%, #1a3a1a 85%, transparent 85%);
+  background-size: 100px 200px, 100px 200px, 80px 150px, 80px 150px, 60px 120px, 60px 120px;
+  background-position: 
+    5% 100%, 5% 100%,
+    25% 100%, 25% 100%,
+    75% 100%, 75% 100%;
+  background-repeat: no-repeat;
+  animation: forestSway 12s ease-in-out infinite;
+}
+
+@keyframes treeSway1 {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(0.3deg); }
+}
+
+@keyframes treeSway2 {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(-0.3deg); }
+}
+
+@keyframes forestSway {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(0); }
+}
+
+/* Luciérnagas mágicas */
+.fireflies {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 4;
+}
+
+.firefly {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: var(--magic-gold);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--magic-gold), 0 0 20px var(--magic-gold);
+  animation: fireflyFloat 8s linear infinite;
+}
+
+@keyframes fireflyFloat {
+  0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(-100px) translateX(50px); opacity: 0; }
+}
+
+/* Hadas mágicas */
+.fairy {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  z-index: 5;
+  animation: fairyDance 12s ease-in-out infinite;
+}
+
+.fairy::before {
+  content: '🧚‍♀️';
+  font-size: 20px;
+  display: block;
+  filter: drop-shadow(0 0 10px var(--magic-pink));
+  animation: fairyGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes fairyDance {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(100px, -50px) rotate(90deg); }
+  50% { transform: translate(200px, 0) rotate(180deg); }
+  75% { transform: translate(100px, 50px) rotate(270deg); }
+  100% { transform: translate(0, 0) rotate(360deg); }
+}
+
+@keyframes fairyGlow {
+  0% { filter: drop-shadow(0 0 5px var(--magic-pink)); }
+  100% { filter: drop-shadow(0 0 15px var(--magic-pink)) drop-shadow(0 0 25px var(--magic-blue)); }
+}
+
+/* Duendes traviesos */
+.goblin {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  z-index: 4;
+  animation: goblinHop 6s ease-in-out infinite;
+}
+
+.goblin::before {
+  content: '🧝‍♂️';
+  font-size: 15px;
+  display: block;
+  animation: goblinWiggle 2s ease-in-out infinite;
+}
+
+@keyframes goblinHop {
+  0% { transform: translateY(0) translateX(0); }
+  25% { transform: translateY(-20px) translateX(30px); }
+  50% { transform: translateY(0) translateX(60px); }
+  75% { transform: translateY(-15px) translateX(90px); }
+  100% { transform: translateY(0) translateX(120px); }
+}
+
+@keyframes goblinWiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-10deg); }
+  75% { transform: rotate(10deg); }
+}
+
+/* Efectos de brillos y partículas */
+.sparkle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: var(--sparkle-gold);
+  border-radius: 50%;
+  z-index: 6;
+  animation: sparkleTwinkle 4s ease-in-out infinite;
+}
+
+@keyframes sparkleTwinkle {
+  0%, 100% { 
+    opacity: 0; 
+    transform: scale(0) rotate(0deg); 
+  }
+  50% { 
+    opacity: 1; 
+    transform: scale(1) rotate(180deg); 
+  }
+}
+
+/* Contenedor de partículas flotantes tipo bokeh */
+.bokeh-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+  pointer-events: none;
+  will-change: transform;
+  transform: translateZ(0);
+  overflow: hidden;
+}
+
+.bokeh-bubble {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.6) 30%, rgba(255, 255, 255, 0.2) 70%, transparent 100%);
+  filter: blur(0.5px);
+  animation: bokehFloat 20s linear infinite, shimmer 3s ease-in-out infinite;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.3);
+}
+
+.bokeh-bubble:nth-child(odd) {
+  background: radial-gradient(circle, rgba(255, 215, 0, 0.8) 0%, rgba(255, 215, 0, 0.5) 30%, rgba(255, 215, 0, 0.2) 70%, transparent 100%);
+  animation-duration: 25s;
+  box-shadow: 0 0 8px rgba(255, 215, 0, 0.6), 0 0 16px rgba(255, 215, 0, 0.4);
+}
+
+.bokeh-bubble:nth-child(3n) {
+  background: radial-gradient(circle, rgba(255, 107, 157, 0.7) 0%, rgba(255, 107, 157, 0.4) 30%, rgba(255, 107, 157, 0.2) 70%, transparent 100%);
+  animation-duration: 30s;
+  box-shadow: 0 0 8px rgba(255, 107, 157, 0.5), 0 0 16px rgba(255, 107, 157, 0.3);
+}
+
+.bokeh-bubble:nth-child(4n) {
+  background: radial-gradient(circle, rgba(78, 205, 196, 0.6) 0%, rgba(78, 205, 196, 0.3) 30%, rgba(78, 205, 196, 0.1) 70%, transparent 100%);
+  animation-duration: 18s;
+  box-shadow: 0 0 8px rgba(78, 205, 196, 0.4), 0 0 16px rgba(78, 205, 196, 0.2);
+}
+
+@keyframes bokehFloat {
+  0% {
+    transform: translateY(100vh) translateX(0) scale(0);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+    transform: translateY(85vh) translateX(15px) scale(0.4);
+  }
+  40% {
+    transform: translateY(60vh) translateX(-25px) scale(0.8);
+  }
+  70% {
+    transform: translateY(35vh) translateX(20px) scale(1);
+  }
+  90% {
+    transform: translateY(15vh) translateX(-15px) scale(0.6);
+  }
+  100% {
+    transform: translateY(5vh) translateX(25px) scale(0);
+    opacity: 0;
+  }
+}
+
+@keyframes shimmer {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}
+
+/* Partículas de polvo de hadas */
+.pixie-dust {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: radial-gradient(circle, #ffd700, #ff6b9d, transparent);
+  border-radius: 50%;
+  z-index: 5;
+  pointer-events: none;
+  box-shadow: 0 0 6px #ffd700, 0 0 12px #ff6b9d;
+  animation: pixieFloat 8s ease-in-out infinite;
+}
+
+.pixie-dust:nth-child(odd) {
+  background: radial-gradient(circle, #ff6b9d, #4ecdc4, transparent);
+  box-shadow: 0 0 6px #ff6b9d, 0 0 12px #4ecdc4;
+  animation-duration: 10s;
+}
+
+.pixie-dust:nth-child(3n) {
+  background: radial-gradient(circle, #4ecdc4, #6a4c93, transparent);
+  box-shadow: 0 0 6px #4ecdc4, 0 0 12px #6a4c93;
+  animation-duration: 12s;
+}
+
+@keyframes pixieFloat {
+  0% { 
+    transform: translateY(100vh) translateX(0) rotate(0deg) scale(0); 
+    opacity: 0; 
+  }
+  5% { 
+    opacity: 1; 
+    transform: translateY(95vh) translateX(5px) rotate(18deg) scale(0.5);
+  }
+  15% { 
+    transform: translateY(85vh) translateX(-10px) rotate(54deg) scale(0.8);
+  }
+  30% { 
+    transform: translateY(70vh) translateX(15px) rotate(108deg) scale(1);
+  }
+  50% { 
+    transform: translateY(50vh) translateX(-5px) rotate(180deg) scale(0.9);
+  }
+  70% { 
+    transform: translateY(30vh) translateX(20px) rotate(252deg) scale(0.7);
+  }
+  85% { 
+    transform: translateY(15vh) translateX(-8px) rotate(306deg) scale(0.4);
+  }
+  95% { 
+    opacity: 1; 
+    transform: translateY(5vh) translateX(12px) rotate(342deg) scale(0.2);
+  }
+  100% { 
+    transform: translateY(-5vh) translateX(15px) rotate(360deg) scale(0); 
+    opacity: 0; 
+  }
+}
+
+/* Hojas cayendo del bosque */
+.falling-leaves {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 4;
+  pointer-events: none;
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+.leaf {
+  position: absolute;
+  width: 6px;
+  height: 8px;
+  background: #2d5a2d;
+  border-radius: 0 100% 0 100%;
+  animation: leafFall 8s linear infinite;
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+.leaf:nth-child(odd) {
+  background: #1a3a1a;
+  animation-duration: 10s;
+}
+
+.leaf:nth-child(3n) {
+  background: #3a6a3a;
+  animation-duration: 12s;
+}
+
+@keyframes leafFall {
+  0% {
+    transform: translateY(-100px) translateX(0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) translateX(10px) rotate(90deg);
+    opacity: 0;
+  }
+}
+
+/* Ramas del bosque */
+.forest-branches {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.branch {
+  position: absolute;
+  background: linear-gradient(45deg, #1a3a1a, #2d4a2d);
+  border-radius: 2px;
+  animation: branchSway 15s ease-in-out infinite;
+}
+
+.branch-1 {
+  width: 120px;
+  height: 4px;
+  top: 30%;
+  left: 5%;
+  transform: rotate(15deg);
+  animation-delay: 0s;
+}
+
+.branch-2 {
+  width: 80px;
+  height: 3px;
+  top: 40%;
+  right: 10%;
+  transform: rotate(-20deg);
+  animation-delay: 3s;
+}
+
+.branch-3 {
+  width: 100px;
+  height: 3px;
+  top: 50%;
+  left: 20%;
+  transform: rotate(25deg);
+  animation-delay: 6s;
+}
+
+@keyframes branchSway {
+  0%, 100% { transform: rotate(15deg); }
+  50% { transform: rotate(16deg); }
+}
+
+/* Musgo en los árboles */
+.moss {
+  position: absolute;
+  width: 20px;
+  height: 8px;
+  background: linear-gradient(45deg, #2d4a2d, #1a3a1a);
+  border-radius: 10px;
+  animation: mossGrow 20s ease-in-out infinite;
+}
+
+.moss-1 {
+  top: 60%;
+  left: 12%;
+  animation-delay: 0s;
+}
+
+.moss-2 {
+  top: 70%;
+  right: 18%;
+  animation-delay: 5s;
+}
+
+.moss-3 {
+  top: 55%;
+  left: 30%;
+  animation-delay: 10s;
+}
+
+@keyframes mossGrow {
+  0%, 100% { transform: scale(1); opacity: 0.7; }
+  50% { transform: scale(1.1); opacity: 1; }
+}
+
+/* Overlay de gradiente mágico */
+.gradient-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    circle at 30% 20%,
+    rgba(106, 76, 147, 0.1) 0%,
+    transparent 50%
+  ),
+  radial-gradient(
+    circle at 70% 80%,
+    rgba(255, 107, 157, 0.1) 0%,
+    transparent 50%
+  );
+  z-index: 7;
+}
+
+/* Estilos del contenido principal */
+.site-header {
+  text-align: center;
+  padding: 2rem 1rem;
+  position: relative;
+  z-index: 10;
+}
+
+.festival-title {
+  font-family: 'Banthern', 'Marcellus', serif;
+  font-size: 6rem;
+  color: var(--magic-gold);
+  text-shadow: 0 0 10px var(--magic-gold), 0 0 30px var(--magic-gold);
+  margin-bottom: 0.5rem;
+  animation: titleGlow 3s ease-in-out infinite alternate;
+  letter-spacing: 3px;
+}
+
+@keyframes titleGlow {
+  0% { text-shadow: 0 0 10px var(--magic-gold), 0 0 30px var(--magic-gold); }
+  100% { text-shadow: 0 0 20px var(--magic-gold), 0 0 40px var(--magic-gold), 0 0 80px var(--magic-pink); }
+}
+
+.festival-subtitle {
+  font-family: 'Banthern', 'Outfit', sans-serif;
+  font-size: 1.2rem;
+  color: var(--magic-silver);
+  text-shadow: 0 0 10px var(--magic-silver);
+  letter-spacing: 0.5px;
+}
+
+.site-main {
+  padding: 2rem 1rem;
+  position: relative;
+  z-index: 10;
+}
+
+.lineup h2 {
+  text-align: center;
+  font-family: 'Banthern', 'Marcellus', serif;
+  font-size: 2.8rem;
+  color: var(--magic-gold);
+  margin-bottom: 2rem;
+  text-shadow: 0 0 15px var(--magic-gold);
+  letter-spacing: 1px;
+}
+
+/* Línea de tiempo del evento */
+.timeline-container {
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.timeline-line {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: linear-gradient(to bottom, 
+    rgba(106, 76, 147, 0.8) 0%,
+    rgba(255, 107, 157, 0.6) 25%,
+    rgba(78, 205, 196, 0.7) 50%,
+    rgba(255, 215, 0, 0.8) 75%,
+    rgba(106, 76, 147, 0.8) 100%
+  );
+  transform: translateX(-50%);
+  border-radius: 2px;
+  box-shadow: 
+    0 0 15px rgba(106, 76, 147, 0.6),
+    0 0 25px rgba(255, 107, 157, 0.4),
+    0 0 35px rgba(78, 205, 196, 0.5);
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 3rem;
+  display: flex;
+  align-items: center;
+  opacity: 0;
+  animation: timelineFadeIn 0.6s ease forwards;
+}
+
+.timeline-item:nth-child(odd) {
+  flex-direction: row;
+}
+
+.timeline-item:nth-child(even) {
+  flex-direction: row-reverse;
+}
+
+.timeline-item:nth-child(2) { animation-delay: 0.1s; }
+.timeline-item:nth-child(3) { animation-delay: 0.2s; }
+.timeline-item:nth-child(4) { animation-delay: 0.3s; }
+.timeline-item:nth-child(5) { animation-delay: 0.4s; }
+.timeline-item:nth-child(6) { animation-delay: 0.5s; }
+.timeline-item:nth-child(7) { animation-delay: 0.6s; }
+.timeline-item:nth-child(8) { animation-delay: 0.7s; }
+.timeline-item:nth-child(9) { animation-delay: 0.8s; }
+.timeline-item:nth-child(10) { animation-delay: 0.9s; }
+.timeline-item:nth-child(11) { animation-delay: 1.0s; }
+.timeline-item:nth-child(12) { animation-delay: 1.1s; }
+
+@keyframes timelineFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.stage-card {
+  background: linear-gradient(135deg, 
+    rgba(26, 58, 26, 0.95) 0%,
+    rgba(45, 90, 45, 0.9) 50%,
+    rgba(26, 58, 26, 0.95) 100%
+  );
+  border: 2px solid rgba(255, 215, 0, 0.3);
+  border-radius: 15px;
+  padding: 1.5rem;
+  backdrop-filter: blur(10px);
+  box-shadow: 
+    0 4px 20px rgba(0, 0, 0, 0.3),
+    0 0 30px rgba(255, 215, 0, 0.2),
+    inset 0 1px 0 rgba(255, 215, 0, 0.2);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.stage-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, 
+    transparent 0%,
+    rgba(255, 215, 0, 0.1) 50%,
+    transparent 100%
+  );
+  border-radius: 15px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 1;
+}
+
+.stage-card::after {
+  content: '✨';
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 1.5rem;
+  opacity: 0.6;
+  animation: sparkle 2s ease-in-out infinite;
+  z-index: 2;
+}
+
+.stage-card:hover::before {
+  opacity: 1;
+}
+
+.stage-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 
+    0 8px 25px rgba(0, 0, 0, 0.4),
+    0 0 40px rgba(255, 215, 0, 0.4),
+    inset 0 1px 0 rgba(255, 215, 0, 0.3);
+  border-color: rgba(255, 215, 0, 0.6);
+}
+
+@keyframes sparkle {
+  0%, 100% { 
+    transform: scale(1) rotate(0deg); 
+    opacity: 0.6; 
+  }
+  50% { 
+    transform: scale(1.2) rotate(180deg); 
+    opacity: 1; 
+  }
+}
+
+.stage-card h3 {
+  font-family: 'Marcellus', serif;
+  font-size: 1.6rem;
+  color: var(--magic-gold);
+  margin-bottom: 1.2rem;
+  text-align: center;
+  text-shadow: 0 0 8px var(--magic-gold);
+  position: relative;
+  z-index: 3;
+}
+
+@keyframes titleGlow {
+  0% { 
+    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.8));
+  }
+  100% { 
+    filter: drop-shadow(0 0 20px rgba(255, 215, 0, 1)) drop-shadow(0 0 40px rgba(255, 107, 157, 0.6));
+  }
+}
+
+.stage-list {
+  list-style: none;
+  position: relative;
+  z-index: 3;
+}
+
+.stage-list li {
+  padding: 0.8rem 0;
+  border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.3s ease;
+  position: relative;
+  border-radius: 5px;
+  margin-bottom: 0.3rem;
+  padding-left: 0.8rem;
+  padding-right: 0.8rem;
+}
+
+.stage-list li::before {
+  content: '🎵';
+  position: absolute;
+  left: -0.5rem;
+  opacity: 0;
+  transition: all 0.3s ease;
+  font-size: 1.2rem;
+}
+
+.stage-list li:hover {
+  color: var(--magic-gold);
+  text-shadow: 0 0 5px var(--magic-gold);
+  background: rgba(255, 215, 0, 0.1);
+  transform: translateX(5px);
+  border-bottom-color: rgba(255, 215, 0, 0.4);
+}
+
+.stage-list li:hover::before {
+  opacity: 1;
+  transform: translateX(5px);
+}
+
+.stage-list time {
+  font-weight: 600;
+  color: var(--magic-silver);
+  background: linear-gradient(45deg, #c0c0c0, #ffd700);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+}
+
+.site-footer {
+  text-align: center;
+  padding: 2rem 1rem;
+  position: relative;
+  z-index: 10;
+  color: var(--magic-silver);
+  text-shadow: 0 0 5px var(--magic-silver);
+  font-family: 'Banthern', 'Outfit', sans-serif;
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+}
+
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 6px;
+  background: var(--magic-purple);
+  color: white;
+  padding: 8px;
+  text-decoration: none;
+  border-radius: 4px;
+  z-index: 1000;
+}
+
+.skip-link:focus {
+  top: 6px;
+}
+
+.timeline-marker {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  border: 3px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+  animation: markerPulse 2s ease-in-out infinite;
+}
+
+.timeline-marker.acoustic {
+  background: linear-gradient(45deg, var(--magic-gold), var(--magic-pink));
+}
+
+.timeline-marker.electric {
+  background: linear-gradient(45deg, var(--magic-blue), var(--magic-purple));
+}
+
+@keyframes markerPulse {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.1);
+    box-shadow: 0 0 25px rgba(255, 215, 0, 0.8);
+  }
+}
+
+.timeline-content {
+  background: linear-gradient(135deg, 
+    rgba(106, 76, 147, 0.8) 0%,
+    rgba(255, 107, 157, 0.6) 30%,
+    rgba(78, 205, 196, 0.7) 70%,
+    rgba(255, 215, 0, 0.5) 100%
+  );
+  border: none;
+  border-radius: 20px;
+  padding: 1.5rem;
+  backdrop-filter: blur(15px);
+  box-shadow: 
+    0 8px 32px rgba(106, 76, 147, 0.3),
+    0 0 20px rgba(255, 215, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  width: 45%;
+  position: relative;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.timeline-content::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent 0%,
+    rgba(255, 255, 255, 0.2) 50%,
+    transparent 100%
+  );
+  transition: left 0.6s ease;
+  z-index: 1;
+}
+
+.timeline-content:hover::before {
+  left: 100%;
+}
+
+.timeline-item:nth-child(odd) .timeline-content {
+  margin-right: 2rem;
+}
+
+.timeline-item:nth-child(even) .timeline-content {
+  margin-left: 2rem;
+}
+
+.timeline-content:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 
+    0 12px 40px rgba(106, 76, 147, 0.5),
+    0 0 30px rgba(255, 215, 0, 0.6),
+    0 0 50px rgba(255, 107, 157, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  border: none;
+}
+
+.timeline-time {
+  font-family: 'Banthern', 'Outfit', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--magic-gold);
+  text-shadow: 0 0 8px var(--magic-gold);
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.5px;
+  position: relative;
+  z-index: 2;
+}
+
+.timeline-artist {
+  font-family: 'Banthern', 'Outfit', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 0.3rem;
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+  letter-spacing: 1px;
+  position: relative;
+  z-index: 2;
+}
+
+.timeline-stage {
+  font-family: 'Banthern', 'Outfit', sans-serif;
+  font-size: 1rem;
+  color: var(--magic-silver);
+  opacity: 0.8;
+  letter-spacing: 0.3px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .festival-title {
+    font-size: 3rem;
+  }
+  
+  .lineup h2 {
+    font-size: 1.8rem;
+  }
+  
+  .timeline-container {
+    padding: 1rem 0.5rem;
+  }
+  
+  .timeline-line {
+    left: 20px;
+    transform: none;
+    width: 3px;
+  }
+  
+  .timeline-marker {
+    left: 20px;
+    transform: translate(-50%, -50%);
+    width: 16px;
+    height: 16px;
+  }
+  
+  .timeline-item {
+    flex-direction: row !important;
+    margin-bottom: 2rem;
+    padding-left: 50px;
+  }
+  
+  .timeline-content {
+    width: 100%;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding: 1rem;
+  }
+  
+  .timeline-time {
+    font-size: 1rem;
+  }
+  
+  .timeline-artist {
+    font-size: 1.3rem;
+  }
+  
+  .timeline-stage {
+    font-size: 0.9rem;
+  }
+}
+
+/* Tablet responsive */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .timeline-content {
+    width: 40%;
+  }
+  
+  .timeline-item:nth-child(odd) .timeline-content {
+    margin-right: 1.5rem;
+  }
+  
+  .timeline-item:nth-child(even) .timeline-content {
+    margin-left: 1.5rem;
+  }
+}
+
+/* Mobile pequeño */
+@media (max-width: 480px) {
+  .festival-title {
+    font-size: 2.5rem;
+  }
+  
+  .lineup h2 {
+    font-size: 1.5rem;
+  }
+  
+  .timeline-container {
+    padding: 0.5rem 0.25rem;
+  }
+  
+  .timeline-line {
+    left: 15px;
+    width: 2px;
+  }
+  
+  .timeline-marker {
+    left: 15px;
+    width: 14px;
+    height: 14px;
+  }
+  
+  .timeline-item {
+    padding-left: 40px;
+    margin-bottom: 1.5rem;
+  }
+  
+  .timeline-content {
+    padding: 0.8rem;
+  }
+  
+  .timeline-time {
+    font-size: 0.9rem;
+  }
+  
+  .timeline-artist {
+    font-size: 1.1rem;
+  }
+  
+  .timeline-stage {
+    font-size: 0.8rem;
+  }
+}
+
+/* Animaciones adicionales para elementos mágicos */
+@keyframes magicalPulse {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.1); opacity: 1; }
+}
+
+.magical-pulse {
+  animation: magicalPulse 2s ease-in-out infinite;
+}
