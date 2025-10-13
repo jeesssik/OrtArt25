@@ -4,7 +4,6 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>ORT ART — 6 de Noviembre</title>
-  <!-- poner imagen guit.png como icono en la pestaña-->
   <link rel="icon" href="guit.png" type="image/png">
   <meta name="description" content="Line-up de ORT ART (7 de Noviembre) con temática bosque mágico: estrellas, niebla y luciérnagas.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -27,82 +26,82 @@
       <div class="timeline-container" role="group" aria-label="Línea de tiempo del evento">
         <div class="timeline-line"></div>
         
-        <div class="timeline-item" data-time="18:00">
+        <div class="timeline-item" data-time="8:00">
           <div class="timeline-marker acoustic"></div>
           <div class="timeline-content">
-            <div class="timeline-time">18:00</div>
+            <div class="timeline-time">8:00</div>
             <div class="timeline-artist">Luna Mágica</div>
             <div class="timeline-stage">🌲 Acústico</div>
           </div>
         </div>
 
-        <div class="timeline-item" data-time="18:15">
+        <div class="timeline-item" data-time="9:15">
           <div class="timeline-marker electric"></div>
           <div class="timeline-content">
-            <div class="timeline-time">18:15</div>
+            <div class="timeline-time">9:15</div>
             <div class="timeline-artist">Rayos del Bosque</div>
             <div class="timeline-stage">⚡ Eléctrico</div>
           </div>
         </div>
 
-        <div class="timeline-item" data-time="18:30">
+        <div class="timeline-item" data-time="11:30">
           <div class="timeline-marker acoustic"></div>
           <div class="timeline-content">
-            <div class="timeline-time">18:30</div>
+            <div class="timeline-time">11:30</div>
             <div class="timeline-artist">Bosque Encantado</div>
             <div class="timeline-stage">🌲 Acústico</div>
           </div>
         </div>
 
-        <div class="timeline-item" data-time="18:45">
+        <div class="timeline-item" data-time="12:45">
           <div class="timeline-marker electric"></div>
           <div class="timeline-content">
-            <div class="timeline-time">18:45</div>
+            <div class="timeline-time">12:45</div>
             <div class="timeline-artist">Truenos Mágicos</div>
             <div class="timeline-stage">⚡ Eléctrico</div>
           </div>
         </div>
 
-        <div class="timeline-item" data-time="19:00">
+        <div class="timeline-item" data-time="13:00">
           <div class="timeline-marker acoustic"></div>
           <div class="timeline-content">
-            <div class="timeline-time">19:00</div>
+            <div class="timeline-time">13:00</div>
             <div class="timeline-artist">Hadas del Viento</div>
             <div class="timeline-stage">🌲 Acústico</div>
           </div>
         </div>
 
-        <div class="timeline-item" data-time="19:15">
+        <div class="timeline-item" data-time="14:15">
           <div class="timeline-marker electric"></div>
           <div class="timeline-content">
-            <div class="timeline-time">19:15</div>
+            <div class="timeline-time">14:15</div>
             <div class="timeline-artist">Tormenta Encantada</div>
             <div class="timeline-stage">⚡ Eléctrico</div>
           </div>
         </div>
 
-        <div class="timeline-item" data-time="19:30">
+        <div class="timeline-item" data-time="14:30">
           <div class="timeline-marker acoustic"></div>
           <div class="timeline-content">
-            <div class="timeline-time">19:30</div>
+            <div class="timeline-time">14:30</div>
             <div class="timeline-artist">Duendes Musicales</div>
             <div class="timeline-stage">🌲 Acústico</div>
           </div>
         </div>
 
-        <div class="timeline-item" data-time="19:45">
+        <div class="timeline-item" data-time="16:45">
           <div class="timeline-marker electric"></div>
           <div class="timeline-content">
-            <div class="timeline-time">19:45</div>
+            <div class="timeline-time">16:45</div>
             <div class="timeline-artist">Relámpagos Dorados</div>
             <div class="timeline-stage">⚡ Eléctrico</div>
           </div>
         </div>
 
-        <div class="timeline-item" data-time="20:00">
+        <div class="timeline-item" data-time="17:00">
           <div class="timeline-marker acoustic"></div>
           <div class="timeline-content">
-            <div class="timeline-time">20:00</div>
+            <div class="timeline-time">17:00</div>
             <div class="timeline-artist">Estrellas Cantantes</div>
             <div class="timeline-stage">🌲 Acústico</div>
           </div>
@@ -155,5 +154,60 @@
   </div>
 
   <script src="script.js"></script>
+  <script>
+document.addEventListener('DOMContentLoaded', function() {
+  const now = new Date();
+  const currentMinutes = now.getHours() * 60 + now.getMinutes();
+
+  // Obtén todas las cards y sus posiciones
+  const cards = Array.from(document.querySelectorAll('.timeline-item'));
+  const times = cards.map(card => {
+    const timeStr = card.querySelector('.timeline-time').textContent.trim();
+    const [hour, minute] = timeStr.split(':').map(Number);
+    return hour * 60 + minute;
+  });
+
+  // Encuentra el intervalo donde está la hora actual
+  let idx = times.findIndex(t => t > currentMinutes);
+  if (idx === -1) idx = times.length - 1; // después de la última card
+  if (idx === 0) idx = 1; // antes de la primera card
+
+  // Card anterior y siguiente
+  const prevCard = cards[idx - 1];
+  const nextCard = cards[idx];
+  const prevTime = times[idx - 1];
+  const nextTime = times[idx];
+
+  // Calcula la posición proporcional entre las dos cards
+  let percent = 0;
+  if (nextTime !== undefined && nextTime !== prevTime) {
+    percent = (currentMinutes - prevTime) / (nextTime - prevTime);
+  }
+
+  // Posición vertical entre las dos cards
+  const topPrev = prevCard.offsetTop;
+  const topNext = nextCard ? nextCard.offsetTop : topPrev;
+  const gnomoTop = topPrev + percent * (topNext - topPrev);
+
+  // Crea el gnomo y lo posiciona sobre la línea del tiempo
+  const gnomo = document.createElement('img');
+  gnomo.src = 'giphy.gif';
+  gnomo.alt = 'Gnomo marcador de hora';
+  gnomo.className = 'gnomo-gif';
+
+  gnomo.style.position = 'absolute';
+  gnomo.style.left = '50%';
+  gnomo.style.transform = 'translateX(-50%)';
+  gnomo.style.top = `${gnomoTop - 60}px`; // ajusta para que "pise" la línea
+  gnomo.style.width = '60px';
+  gnomo.style.pointerEvents = 'none';
+  gnomo.style.zIndex = '30';
+
+  // Agrega el gnomo a la timeline-container
+  const timeline = document.querySelector('.timeline-container');
+  timeline.style.position = 'relative';
+  timeline.appendChild(gnomo);
+});
+</script>
 </body>
 </html>

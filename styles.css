@@ -1092,3 +1092,13 @@ body {
 .magical-pulse {
   animation: magicalPulse 2s ease-in-out infinite;
 }
+
+.gnomo-gif {
+  animation: bounce 1s infinite alternate;
+}
+
+@keyframes bounce {
+  to {
+    transform: translateX(-50%) translateY(-10px);
+  }
+}
