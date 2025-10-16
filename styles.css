@@ -16,15 +16,15 @@
 }
 
 :root {
-  --forest-dark: #0a1a0a;
-  --forest-green: #1a3a1a;
-  --forest-light: #2d5a2d;
-  --magic-purple: #6a4c93;
-  --magic-pink: #ff6b9d;
-  --magic-blue: #4ecdc4;
-  --magic-gold: #ffd700;
-  --magic-silver: #c0c0c0;
-  --mist-white: rgba(255, 255, 255, 0.1);
+  --forest-dark: #062814;
+  --forest-green: #114022;
+  --forest-light: #2fa65a;
+  --magic-purple: #7b49d1;
+  --magic-pink: #ff4d88;
+  --magic-blue: #2ad6c0;
+  --magic-gold: #ffdf33;
+  --magic-silver: #e6e6e6;
+  --mist-white: rgba(255, 255, 255, 0.15);
   --sparkle-gold: #ffd700;
 }
 
@@ -565,18 +565,70 @@ body {
 }
 
 .festival-title {
-  font-family: 'Banthern', 'Marcellus', serif;
-  font-size: 6rem;
-  color: var(--magic-gold);
-  text-shadow: 0 0 10px var(--magic-gold), 0 0 30px var(--magic-gold);
-  margin-bottom: 0.5rem;
-  animation: titleGlow 3s ease-in-out infinite alternate;
-  letter-spacing: 3px;
+  position: relative;
+  display: inline-block;
+  padding: 10px 20px;
+  border-radius: 14px;
+  z-index: 20;
+
+  
+  /* Mantener tamaño / movimiento */
+  animation: titleFloat 6s ease-in-out infinite;
+  overflow: visible;
 }
 
-@keyframes titleGlow {
-  0% { text-shadow: 0 0 10px var(--magic-gold), 0 0 30px var(--magic-gold); }
-  100% { text-shadow: 0 0 20px var(--magic-gold), 0 0 40px var(--magic-gold), 0 0 80px var(--magic-pink); }
+/* Texto con degradado vivo y shimmer limitado SOLO a las letras */
+.title-text {
+  font-family: 'Banthern', 'Marcellus', serif;
+  font-size: 6rem;
+  font-weight: 700;
+  display: inline-block;
+  position: relative;
+  z-index: 10;
+
+  /* degradado más claro / pastel para mayor claridad */
+  background: linear-gradient(90deg,
+    #fffdf0 0%,    /* muy claro - dorado pastel */
+    #ffd1ea 45%,   /* rosa suave */
+    #aefef6 100%   /* aqua claro */
+  );
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+
+  /* contorno oscuro para buen contraste con los tonos claros */
+  -webkit-text-stroke: 0.5px rgba(0,0,0,0.7);
+  text-stroke: 0.5px rgba(0, 0, 0, 0.43);
+
+  /* sombra más sutil para mantener nitidez */
+  text-shadow: 0 6px 14px rgba(202, 7, 202, 0.726), 0 2px 6px rgba(197, 216, 26, 0.6);
+
+  animation: textShimmer 3.2s linear infinite;
+}
+
+/* opcional: dejar chispas discretas pero sin afectar el renglón */
+.festival-title::after {
+  content: '';
+  position: absolute;
+  top: -6%;
+  right: -4%;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #fffef0 0%, #fff06b 30%, transparent 60%);
+  box-shadow: -20px 6px 10px rgba(255,230,110,0.18), -8px 26px 12px rgba(255,43,106,0.12);
+  filter: blur(0.6px);
+  opacity: 0.85;
+  animation: titleSpark 4s ease-in-out infinite;
+  z-index: 6;
+}
+
+/* animación del gradiente SOLO para el texto */
+@keyframes textShimmer {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 .festival-subtitle {
@@ -617,19 +669,20 @@ body {
   top: 0;
   bottom: 0;
   width: 4px;
+  /* gradiente más vivo y sombras más intensas */
   background: linear-gradient(to bottom, 
-    rgba(106, 76, 147, 0.8) 0%,
-    rgba(255, 107, 157, 0.6) 25%,
-    rgba(78, 205, 196, 0.7) 50%,
-    rgba(255, 215, 0, 0.8) 75%,
-    rgba(106, 76, 147, 0.8) 100%
+    rgba(123, 73, 209, 1) 0%,
+    rgba(255, 77, 136, 0.95) 25%,
+    rgba(42, 214, 192, 0.95) 50%,
+    rgba(255, 223, 51, 0.98) 75%,
+    rgba(123, 73, 209, 1) 100%
   );
   transform: translateX(-50%);
   border-radius: 2px;
   box-shadow: 
-    0 0 15px rgba(106, 76, 147, 0.6),
-    0 0 25px rgba(255, 107, 157, 0.4),
-    0 0 35px rgba(78, 205, 196, 0.5);
+    0 0 25px rgba(123, 73, 209, 0.9),
+    0 0 35px rgba(255, 77, 136, 0.7),
+    0 0 45px rgba(42, 214, 192, 0.6);
 }
 
 .timeline-item {
@@ -673,19 +726,19 @@ body {
 }
 
 .stage-card {
+  /* acentuar brillo y borde dorado */
   background: linear-gradient(135deg, 
-    rgba(26, 58, 26, 0.95) 0%,
-    rgba(45, 90, 45, 0.9) 50%,
-    rgba(26, 58, 26, 0.95) 100%
+    rgba(34, 110, 59, 1) 0%,
+    rgba(45, 130, 65, 1) 50%,
+    rgba(34, 110, 59, 1) 100%
   );
-  border: 2px solid rgba(255, 215, 0, 0.3);
-  border-radius: 15px;
+  border: 2px solid rgba(255, 223, 51, 0.45);
   padding: 1.5rem;
   backdrop-filter: blur(10px);
   box-shadow: 
-    0 4px 20px rgba(0, 0, 0, 0.3),
-    0 0 30px rgba(255, 215, 0, 0.2),
-    inset 0 1px 0 rgba(255, 215, 0, 0.2);
+    0 6px 30px rgba(0, 0, 0, 0.28),
+    0 0 45px rgba(255, 223, 51, 0.35),
+    inset 0 1px 0 rgba(255, 223, 51, 0.28);
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
@@ -700,7 +753,7 @@ body {
   bottom: 0;
   background: linear-gradient(135deg, 
     transparent 0%,
-    rgba(255, 215, 0, 0.1) 50%,
+    rgba(255, 223, 51, 0.1) 50%,
     transparent 100%
   );
   border-radius: 15px;
@@ -728,9 +781,9 @@ body {
   transform: translateY(-3px);
   box-shadow: 
     0 8px 25px rgba(0, 0, 0, 0.4),
-    0 0 40px rgba(255, 215, 0, 0.4),
-    inset 0 1px 0 rgba(255, 215, 0, 0.3);
-  border-color: rgba(255, 215, 0, 0.6);
+    0 0 40px rgba(255, 223, 51, 0.4),
+    inset 0 1px 0 rgba(255, 223, 51, 0.3);
+  border-color: rgba(255, 223, 51, 0.6);
 }
 
 @keyframes sparkle {
@@ -882,16 +935,17 @@ body {
   overflow: hidden;   /* <-- recorta el brillo al tamaño de la card */
   width: 45%;               
   max-width: 520px;         /* opcional: evita que crezcan demasiado */
+  /* colores del contenido más saturados y opacos */
   background: linear-gradient(135deg, 
-    rgba(106, 76, 147, 0.95) 0%,
-    rgba(255, 107, 157, 0.90) 30%,
-    rgba(78, 205, 196, 0.95) 70%,
-    rgba(255, 215, 0, 0.92) 100%
+    rgba(123, 73, 209, 1) 0%,
+    rgba(255, 77, 136, 1) 30%,
+    rgba(42, 214, 192, 1) 70%,
+    rgba(255, 223, 51, 1) 100%
   );
   color: #fff;
   padding: 8px 12px;
   border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.45);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.38), 0 0 40px rgba(255, 223, 51, 0.22);
   backdrop-filter: blur(4px) saturate(120%);
   -webkit-backdrop-filter: blur(4px) saturate(120%);
   transition: all 0.3s ease;
@@ -973,7 +1027,8 @@ body {
 /* Responsive design */
 @media (max-width: 768px) {
   .festival-title {
-    font-size: 3rem;
+    font-size: 3.2rem;
+    padding: 6px 12px;
   }
   
   .lineup h2 {
@@ -1041,7 +1096,8 @@ body {
 /* Mobile pequeño */
 @media (max-width: 480px) {
   .festival-title {
-    font-size: 2.5rem;
+    font-size: 2.6rem;
+    padding: 4px 10px;
   }
   
   .lineup h2 {
@@ -1108,16 +1164,17 @@ body {
 .timeline-item .timeline-content {
   width: 45%;               /* asegurar también aquí si se sobrescribe */
   max-width: 520px;
+  /* colores del contenido más saturados y opacos */
   background: linear-gradient(135deg, 
-    rgba(106, 76, 147, 0.95) 0%,
-    rgba(255, 107, 157, 0.90) 30%,
-    rgba(78, 205, 196, 0.95) 70%,
-    rgba(255, 215, 0, 0.92) 100%
+    rgba(123, 73, 209, 1) 0%,
+    rgba(255, 77, 136, 1) 30%,
+    rgba(42, 214, 192, 1) 70%,
+    rgba(255, 223, 51, 1) 100%
   );
   color: #fff;
   padding: 8px 12px;
   border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.45);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.38), 0 0 40px rgba(255, 223, 51, 0.22);
   backdrop-filter: blur(4px) saturate(120%);
   -webkit-backdrop-filter: blur(4px) saturate(120%);
   transition: all 0.3s ease;
