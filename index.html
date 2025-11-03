@@ -68,58 +68,59 @@
   </div>
   <script>
     function poneElGnomo() {
-      const now = new Date();
-      const currentMinutes = now.getHours() * 60 + now.getMinutes();
-      debugger;
-      // Obtén todas las cards y sus posiciones
-      const cards = Array.from(document.querySelectorAll('.timeline-item'));
-      const times = cards.map(card => {
-        const timeStr = card.querySelector('.timeline-time').textContent.trim();
-        const [hour, minute] = timeStr.split(':').map(Number);
-        return hour * 60 + minute;
-      });
+  const timeline = document.querySelector('.timeline-container');
 
-      // Encuentra el intervalo donde está la hora actual
-      let idx = times.findIndex(t => t > currentMinutes);
-      if (idx === -1) idx = times.length - 1; // después de la última card
-      if (idx === 0) idx = 1; // antes de la primera card
+  // Elimina gnomo previo si existe
+  const gnomoExistente = timeline.querySelector('.gnomo-gif');
+  if (gnomoExistente) {
+    gnomoExistente.remove();
+  }
 
-      // Card anterior y siguiente
-      const prevCard = cards[idx - 1];
-      const nextCard = cards[idx];
-      const prevTime = times[idx - 1];
-      const nextTime = times[idx];
+  const now = new Date();
+  const currentMinutes = now.getHours() * 60 + now.getMinutes();
 
-      // Calcula la posición proporcional entre las dos cards
-      let percent = 0;
-      if (nextTime !== undefined && nextTime !== prevTime) {
-        percent = (currentMinutes - prevTime) / (nextTime - prevTime);
-      }
+  const cards = Array.from(document.querySelectorAll('.timeline-item'));
+  const times = cards.map(card => {
+    const timeStr = card.querySelector('.timeline-time').textContent.trim();
+    const [hour, minute] = timeStr.split(':').map(Number);
+    return hour * 60 + minute;
+  });
 
-      // Posición vertical entre las dos cards
-      const topPrev = prevCard.offsetTop;
-      const topNext = nextCard ? nextCard.offsetTop : topPrev;
-      const gnomoTop = topPrev + percent * (topNext - topPrev);
+  let idx = times.findIndex(t => t > currentMinutes);
+  if (idx === -1) idx = times.length - 1;
+  if (idx === 0) idx = 1;
 
-      // Crea el gnomo y lo posiciona sobre la línea del tiempo
-      const gnomo = document.createElement('img');
-      gnomo.src = 'giphy.gif';
-      gnomo.alt = 'Gnomo marcador de hora';
-      gnomo.className = 'gnomo-gif';
+  const prevCard = cards[idx - 1];
+  const nextCard = cards[idx];
+  const prevTime = times[idx - 1];
+  const nextTime = times[idx];
 
-      gnomo.style.position = 'absolute';
-      gnomo.style.left = '50%';
-      gnomo.style.transform = 'translateX(-50%)';
-      gnomo.style.top = `${gnomoTop - 60}px`; // ajusta para que "pise" la línea
-      gnomo.style.width = '60px';
-      gnomo.style.pointerEvents = 'none';
-      gnomo.style.zIndex = '30';
+  let percent = 0;
+  if (nextTime !== undefined && nextTime !== prevTime) {
+    percent = (currentMinutes - prevTime) / (nextTime - prevTime);
+  }
 
-      // Agrega el gnomo a la timeline-container
-      const timeline = document.querySelector('.timeline-container');
-      timeline.style.position = 'relative';
-      timeline.appendChild(gnomo);
-    }
+  const topPrev = prevCard.offsetTop;
+  const topNext = nextCard ? nextCard.offsetTop : topPrev;
+  const gnomoTop = topPrev + percent * (topNext - topPrev);
+
+  const gnomo = document.createElement('img');
+  gnomo.src = 'giphy.gif';
+  gnomo.alt = 'Gnomo marcador de hora';
+  gnomo.className = 'gnomo-gif';
+
+  gnomo.style.position = 'absolute';
+  gnomo.style.left = '50%';
+  gnomo.style.transform = 'translateX(-50%)';
+  gnomo.style.top = `${gnomoTop - 60}px`;
+  gnomo.style.width = '60px';
+  gnomo.style.pointerEvents = 'none';
+  gnomo.style.zIndex = '30';
+
+  timeline.style.position = 'relative';
+  timeline.appendChild(gnomo);
+}
+
     new Vue({
   el: '#app',
   data: {
