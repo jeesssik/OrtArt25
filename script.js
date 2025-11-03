@@ -1,3 +1,8 @@
+
+
+
+
+
 // Animaciones del bosque encantado - Optimizado
 document.addEventListener('DOMContentLoaded', function() {
     // Limpiar partículas acumuladas

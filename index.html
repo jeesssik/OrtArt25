@@ -1,136 +1,50 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>ORT ART — 6 de Noviembre</title>
   <link rel="icon" href="guit.png" type="image/png">
-  <meta name="description" content="Line-up de ORT ART (7 de Noviembre) con temática bosque mágico: estrellas, niebla y luciérnagas.">
+  <meta name="description"
+    content="Line-up de ORT ART (7 de Noviembre) con temática bosque mágico: estrellas, niebla y luciérnagas.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Outfit:wght@300;400;600;800&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/csv-js@1.0.0/csv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
 </head>
+
 <body>
   <a class="skip-link" href="#main">Saltar al contenido</a>
 
   <header class="site-header" role="banner">
-  <h1 class="festival-title"><span class="title-text">ORT ART </span></h1>
-  <h3 class="festival-subtitle"><span class="subtitle-text">6 de Noviembre</span></h3>
-</header>
+    <h1 class="festival-title"><span class="title-text">ORT ART </span></h1>
+    <h3 class="festival-subtitle"><span class="subtitle-text">6 de Noviembre</span></h3>
+  </header>
 
   <main id="main" class="site-main" role="main">
-    <section class="lineup" aria-labelledby="lineup-heading">
+    <section class="lineup" aria-labelledby="lineup-heading" id="app">
       <h2 id="lineup-heading">Line-Up</h2>
 
       <div class="timeline-container" role="group" aria-label="Línea de tiempo del evento">
         <div class="timeline-line"></div>
-        
-        <div class="timeline-item" data-time="8:00">
-          <div class="timeline-marker acoustic"></div>
-          <div class="timeline-content">
-            <div class="timeline-time">8:00</div>
-            <div class="timeline-artist">Luna Mágica</div>
-            <div class="timeline-stage">🌲 Acústico</div>
-          </div>
-        </div>
 
-        <div class="timeline-item" data-time="9:15">
-          <div class="timeline-marker electric"></div>
+        <div v-for="(item, index) in eventos" :key="index" class="timeline-item" :data-time="item.hora">
+          <div :class="['timeline-marker', item.tipo]"></div>
           <div class="timeline-content">
-            <div class="timeline-time">9:15</div>
-            <div class="timeline-artist">Rayos del Bosque</div>
-            <div class="timeline-stage">⚡ Eléctrico</div>
-          </div>
-        </div>
+            <div class="timeline-time">{{ item.horario }}</div>
+            <div class="timeline-artist">{{ item.banda }}</div>
 
-        <div class="timeline-item" data-time="11:30">
-          <div class="timeline-marker acoustic"></div>
-          <div class="timeline-content">
-            <div class="timeline-time">11:30</div>
-            <div class="timeline-artist">Bosque Encantado</div>
-            <div class="timeline-stage">🌲 Acústico</div>
-          </div>
-        </div>
+            <div class="timeline-stage" v-if="item.tipo === 'acoustic'">
+              🌲 Acústico
+            </div>
+            <div class="timeline-stage" v-else-if="item.tipo === 'electric'">
+              ⚡ Eléctrico
+            </div>
 
-        <div class="timeline-item" data-time="12:45">
-          <div class="timeline-marker electric"></div>
-          <div class="timeline-content">
-            <div class="timeline-time">12:45</div>
-            <div class="timeline-artist">Truenos Mágicos</div>
-            <div class="timeline-stage">⚡ Eléctrico</div>
-          </div>
-        </div>
-
-        <div class="timeline-item" data-time="13:00">
-          <div class="timeline-marker acoustic"></div>
-          <div class="timeline-content">
-            <div class="timeline-time">13:00</div>
-            <div class="timeline-artist">Hadas del Viento</div>
-            <div class="timeline-stage">🌲 Acústico</div>
-          </div>
-        </div>
-
-        <div class="timeline-item" data-time="14:15">
-          <div class="timeline-marker electric"></div>
-          <div class="timeline-content">
-            <div class="timeline-time">14:15</div>
-            <div class="timeline-artist">Tormenta Encantada</div>
-            <div class="timeline-stage">⚡ Eléctrico</div>
-          </div>
-        </div>
-
-        <div class="timeline-item" data-time="14:30">
-          <div class="timeline-marker acoustic"></div>
-          <div class="timeline-content">
-            <div class="timeline-time">14:30</div>
-            <div class="timeline-artist">Duendes Musicales</div>
-            <div class="timeline-stage">🌲 Acústico</div>
-          </div>
-        </div>
-
-        <div class="timeline-item" data-time="16:45">
-          <div class="timeline-marker electric"></div>
-          <div class="timeline-content">
-            <div class="timeline-time">16:45</div>
-            <div class="timeline-artist">Relámpagos Dorados</div>
-            <div class="timeline-stage">⚡ Eléctrico</div>
-          </div>
-        </div>
-
-        <div class="timeline-item" data-time="17:00">
-          <div class="timeline-marker acoustic"></div>
-          <div class="timeline-content">
-            <div class="timeline-time">17:00</div>
-            <div class="timeline-artist">Estrellas Cantantes</div>
-            <div class="timeline-stage">🌲 Acústico</div>
-          </div>
-        </div>
-
-        <div class="timeline-item" data-time="20:15">
-          <div class="timeline-marker electric"></div>
-          <div class="timeline-content">
-            <div class="timeline-time">20:15</div>
-            <div class="timeline-artist">Energía Cósmica</div>
-            <div class="timeline-stage">⚡ Eléctrico</div>
-          </div>
-        </div>
-
-        <div class="timeline-item" data-time="20:30">
-          <div class="timeline-marker acoustic"></div>
-          <div class="timeline-content">
-            <div class="timeline-time">20:30</div>
-            <div class="timeline-artist">Luciérnagas Melódicas</div>
-            <div class="timeline-stage">🌲 Acústico</div>
-          </div>
-        </div>
-
-        <div class="timeline-item" data-time="20:45">
-          <div class="timeline-marker electric"></div>
-          <div class="timeline-content">
-            <div class="timeline-time">20:45</div>
-            <div class="timeline-artist">Fuego Místico</div>
-            <div class="timeline-stage">⚡ Eléctrico</div>
           </div>
         </div>
       </div>
@@ -143,7 +57,7 @@
     <canvas id="stars"></canvas>
     <div class="mist"></div>
     <div class="fireflies"></div>
-   
+
 
     <div class="falling-leaves"></div>
     <div class="bokeh-container"></div>
@@ -152,62 +66,103 @@
     <div class="moss moss-3"></div>
     <div class="gradient-overlay"></div>
   </div>
-
-  <script src="script.js"></script>
   <script>
-document.addEventListener('DOMContentLoaded', function() {
-  const now = new Date();
-  const currentMinutes = now.getHours() * 60 + now.getMinutes();
+    function poneElGnomo() {
+      const now = new Date();
+      const currentMinutes = now.getHours() * 60 + now.getMinutes();
+      debugger;
+      // Obtén todas las cards y sus posiciones
+      const cards = Array.from(document.querySelectorAll('.timeline-item'));
+      const times = cards.map(card => {
+        const timeStr = card.querySelector('.timeline-time').textContent.trim();
+        const [hour, minute] = timeStr.split(':').map(Number);
+        return hour * 60 + minute;
+      });
 
-  // Obtén todas las cards y sus posiciones
-  const cards = Array.from(document.querySelectorAll('.timeline-item'));
-  const times = cards.map(card => {
-    const timeStr = card.querySelector('.timeline-time').textContent.trim();
-    const [hour, minute] = timeStr.split(':').map(Number);
-    return hour * 60 + minute;
-  });
+      // Encuentra el intervalo donde está la hora actual
+      let idx = times.findIndex(t => t > currentMinutes);
+      if (idx === -1) idx = times.length - 1; // después de la última card
+      if (idx === 0) idx = 1; // antes de la primera card
 
-  // Encuentra el intervalo donde está la hora actual
-  let idx = times.findIndex(t => t > currentMinutes);
-  if (idx === -1) idx = times.length - 1; // después de la última card
-  if (idx === 0) idx = 1; // antes de la primera card
+      // Card anterior y siguiente
+      const prevCard = cards[idx - 1];
+      const nextCard = cards[idx];
+      const prevTime = times[idx - 1];
+      const nextTime = times[idx];
 
-  // Card anterior y siguiente
-  const prevCard = cards[idx - 1];
-  const nextCard = cards[idx];
-  const prevTime = times[idx - 1];
-  const nextTime = times[idx];
+      // Calcula la posición proporcional entre las dos cards
+      let percent = 0;
+      if (nextTime !== undefined && nextTime !== prevTime) {
+        percent = (currentMinutes - prevTime) / (nextTime - prevTime);
+      }
 
-  // Calcula la posición proporcional entre las dos cards
-  let percent = 0;
-  if (nextTime !== undefined && nextTime !== prevTime) {
-    percent = (currentMinutes - prevTime) / (nextTime - prevTime);
-  }
+      // Posición vertical entre las dos cards
+      const topPrev = prevCard.offsetTop;
+      const topNext = nextCard ? nextCard.offsetTop : topPrev;
+      const gnomoTop = topPrev + percent * (topNext - topPrev);
 
-  // Posición vertical entre las dos cards
-  const topPrev = prevCard.offsetTop;
-  const topNext = nextCard ? nextCard.offsetTop : topPrev;
-  const gnomoTop = topPrev + percent * (topNext - topPrev);
+      // Crea el gnomo y lo posiciona sobre la línea del tiempo
+      const gnomo = document.createElement('img');
+      gnomo.src = 'giphy.gif';
+      gnomo.alt = 'Gnomo marcador de hora';
+      gnomo.className = 'gnomo-gif';
 
-  // Crea el gnomo y lo posiciona sobre la línea del tiempo
-  const gnomo = document.createElement('img');
-  gnomo.src = 'giphy.gif';
-  gnomo.alt = 'Gnomo marcador de hora';
-  gnomo.className = 'gnomo-gif';
+      gnomo.style.position = 'absolute';
+      gnomo.style.left = '50%';
+      gnomo.style.transform = 'translateX(-50%)';
+      gnomo.style.top = `${gnomoTop - 60}px`; // ajusta para que "pise" la línea
+      gnomo.style.width = '60px';
+      gnomo.style.pointerEvents = 'none';
+      gnomo.style.zIndex = '30';
 
-  gnomo.style.position = 'absolute';
-  gnomo.style.left = '50%';
-  gnomo.style.transform = 'translateX(-50%)';
-  gnomo.style.top = `${gnomoTop - 60}px`; // ajusta para que "pise" la línea
-  gnomo.style.width = '60px';
-  gnomo.style.pointerEvents = 'none';
-  gnomo.style.zIndex = '30';
+      // Agrega el gnomo a la timeline-container
+      const timeline = document.querySelector('.timeline-container');
+      timeline.style.position = 'relative';
+      timeline.appendChild(gnomo);
+    }
+    new Vue({
+      el: '#app',
+      data: {
+        eventos: []
+      },
+      mounted() {
 
-  // Agrega el gnomo a la timeline-container
-  const timeline = document.querySelector('.timeline-container');
-  timeline.style.position = 'relative';
-  timeline.appendChild(gnomo);
-});
-</script>
+        fetch('eventos.csv')
+          .then(response => response.text())
+          .then(csvText => {
+            const data = CSV.parse(csvText);
+            // Primera fila: encabezados
+            const headers = data[0];
+            // Resto: filas de datos
+            this.eventos = data.slice(1).map(row => {
+              const obj = {};
+              if (row[0] === '' && row[1] === '') {
+                return;
+              }
+              headers.forEach((h, i) => {
+                obj[h.trim()] = row[i];
+                if (h.trim() === "escenario") {
+                  obj["tipo"] = row[i] === 1 ? "electric" : "acoustic";
+                }
+              });
+              return obj;
+            });
+          })
+          .catch(err => console.error('Error cargando CSV:', err));
+      },
+      updated() {
+        // Se llama cada vez que el DOM de Vue se actualiza.
+        // Así nos aseguramos de que los elementos existen.
+        if (this.eventos.length > 0) {
+          // Pequeño delay para que el layout se estabilice
+          setTimeout(() => {
+            poneElGnomo();
+          }, 100);
+        }
+      }
+    });
+  </script>
+  <script src="script.js"></script>
 </body>
+
 </html>
