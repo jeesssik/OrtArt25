@@ -121,46 +121,56 @@
       timeline.appendChild(gnomo);
     }
     new Vue({
-      el: '#app',
-      data: {
-        eventos: []
-      },
-      mounted() {
+  el: '#app',
+  data: {
+    eventos: []
+  },
+  mounted() {
+    // Función que trae la hoja
+    const cargarEventos = () => {
+      const url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTmWjcpQvintbxgj4x-bJPo2irG-xNyBQ0sV6G6YT-vncGT4nEA6MxOT4gn9hHlGO3P55GgfK5LdOE8/pub?gid=0&single=true&output=csv';
 
-        fetch('eventos.csv')
-          .then(response => response.text())
-          .then(csvText => {
-            const data = CSV.parse(csvText);
-            // Primera fila: encabezados
-            const headers = data[0];
-            // Resto: filas de datos
-            this.eventos = data.slice(1).map(row => {
-              const obj = {};
-              if (row[0] === '' && row[1] === '') {
-                return;
-              }
-              headers.forEach((h, i) => {
-                obj[h.trim()] = row[i];
-                if (h.trim() === "escenario") {
-                  obj["tipo"] = row[i] === 1 ? "electric" : "acoustic";
-                }
-              });
-              return obj;
-            });
-          })
-          .catch(err => console.error('Error cargando CSV:', err));
-      },
-      updated() {
-        // Se llama cada vez que el DOM de Vue se actualiza.
-        // Así nos aseguramos de que los elementos existen.
-        if (this.eventos.length > 0) {
-          // Pequeño delay para que el layout se estabilice
+      fetch(url)
+        .then(res => res.text())
+        .then(csvText => {
+          const rows = csvText.trim().split(/\r?\n/).map(line => line.split(','));
+          const headers = rows[0].map(h => h.trim().toLowerCase());
+          const eventos = [];
+
+          for (let i = 1; i < rows.length; i++) {
+            const row = rows[i];
+            if (!row.join('').trim()) continue;
+
+            const obj = {};
+            headers.forEach((h, j) => obj[h] = row[j] ? row[j].trim() : '');
+
+            const esc = obj['escenario']?.toLowerCase();
+            obj.tipo =
+              esc.includes('eléctrico') || esc === '1'
+                ? 'electric'
+                : 'acoustic';
+
+            eventos.push(obj);
+          }
+
+          this.eventos = eventos;
+
+          // Recalcula posición del gnomo después de actualizar DOM
           setTimeout(() => {
             poneElGnomo();
           }, 100);
-        }
-      }
-    });
+        })
+        .catch(err => console.error('Error cargando CSV:', err));
+    };
+
+    // Primera carga
+    cargarEventos();
+
+    // Refresca cada 30 segundos
+    setInterval(cargarEventos, 30000);
+  }
+});
+
   </script>
   <script src="script.js"></script>
 </body>
