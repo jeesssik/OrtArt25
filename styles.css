@@ -694,12 +694,30 @@ body {
   animation: timelineFadeIn 0.6s ease forwards;
 }
 
-.timeline-item:nth-child(odd) {
+/* Acoustic events - Left side */
+.timeline-item .timeline-marker.acoustic {
+  order: 0;
+}
+
+.timeline-item:has(.timeline-marker.acoustic) {
   flex-direction: row;
 }
 
-.timeline-item:nth-child(even) {
+.timeline-item:has(.timeline-marker.acoustic) .timeline-content {
+  order: -1;
+}
+
+/* Electric events - Right side */  
+.timeline-item .timeline-marker.electric {
+  order: 0;
+}
+
+.timeline-item:has(.timeline-marker.electric) {
   flex-direction: row-reverse;
+}
+
+.timeline-item:has(.timeline-marker.electric) .timeline-content {
+  order: 1;
 }
 
 .timeline-item:nth-child(2) { animation-delay: 0.1s; }
@@ -974,12 +992,16 @@ body {
   transform: translateX(100%);           /* se mueve solo dentro de la card */
 }
 
-.timeline-item:nth-child(odd) .timeline-content {
+/* Acoustic events margin (left side) */
+.timeline-item:has(.timeline-marker.acoustic) .timeline-content {
   margin-right: 2rem;
+  margin-left: 0;
 }
 
-.timeline-item:nth-child(even) .timeline-content {
+/* Electric events margin (right side) */
+.timeline-item:has(.timeline-marker.electric) .timeline-content {
   margin-left: 2rem;
+  margin-right: 0;
 }
 
 .timeline-content:hover {
@@ -1025,6 +1047,73 @@ body {
 }
 
 /* Responsive design */
+/* Específico para 770px y similar - Acoustic left, Electric right */
+@media (max-width: 770px) {
+  .timeline-container {
+    padding: 1rem;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+  
+  .timeline-line {
+    left: 50%;
+    transform: translateX(-50%);
+    width: 3px;
+  }
+  
+  .timeline-marker {
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 18px;
+    height: 18px;
+  }
+  
+  .timeline-item {
+    flex-direction: row !important;
+    margin-bottom: 2rem;
+    padding-left: 0;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Acoustic events - Left side */
+  .timeline-item .timeline-marker.acoustic ~ .timeline-content,
+  .timeline-item:has(.timeline-marker.acoustic) .timeline-content {
+    width: 45% !important;
+    max-width: 300px !important;
+    margin-right: auto !important;
+    margin-left: 0 !important;
+    order: -1;
+  }
+  
+  /* Electric events - Right side */
+  .timeline-item .timeline-marker.electric ~ .timeline-content,
+  .timeline-item:has(.timeline-marker.electric) .timeline-content {
+    width: 45% !important;
+    max-width: 300px !important;
+    margin-left: auto !important;
+    margin-right: 0 !important;
+    order: 1;
+  }
+  
+  .timeline-content {
+    padding: 1.2rem;
+    flex: none !important;
+  }
+  
+  .timeline-time {
+    font-size: 1.1rem;
+  }
+  
+  .timeline-artist {
+    font-size: 1.4rem;
+  }
+  
+  .timeline-stage {
+    font-size: 1rem;
+  }
+}
+
 @media (max-width: 768px) {
   .festival-title {
     font-size: 3.2rem;
@@ -1033,36 +1122,6 @@ body {
   
   .lineup h2 {
     font-size: 1.8rem;
-  }
-  
-  .timeline-container {
-    padding: 1rem 0.5rem;
-  }
-  
-  .timeline-line {
-    left: 20px;
-    transform: none;
-    width: 3px;
-  }
-  
-  .timeline-marker {
-    left: 20px;
-    transform: translate(-50%, -50%);
-    width: 16px;
-    height: 16px;
-  }
-  
-  .timeline-item {
-    flex-direction: row !important;
-    margin-bottom: 2rem;
-    padding-left: 50px;
-  }
-  
-  .timeline-content {
-    width: 100%;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-    padding: 1rem;
   }
   
   .timeline-time {
@@ -1079,17 +1138,21 @@ body {
 }
 
 /* Tablet responsive */
-@media (max-width: 1024px) and (min-width: 769px) {
+@media (max-width: 1024px) and (min-width: 771px) {
   .timeline-content {
     width: 40%;
   }
   
-  .timeline-item:nth-child(odd) .timeline-content {
+  /* Acoustic events margin (left side) */
+  .timeline-item:has(.timeline-marker.acoustic) .timeline-content {
     margin-right: 1.5rem;
+    margin-left: 0;
   }
   
-  .timeline-item:nth-child(even) .timeline-content {
+  /* Electric events margin (right side) */
+  .timeline-item:has(.timeline-marker.electric) .timeline-content {
     margin-left: 1.5rem;
+    margin-right: 0;
   }
 }
 
@@ -1105,26 +1168,47 @@ body {
   }
   
   .timeline-container {
-    padding: 0.5rem 0.25rem;
+    padding: 1rem 0.5rem;
   }
   
   .timeline-line {
-    left: 15px;
+    left: 50%;
+    transform: translateX(-50%);
     width: 2px;
   }
   
   .timeline-marker {
-    left: 15px;
+    left: 50%;
+    transform: translate(-50%, -50%);
     width: 14px;
     height: 14px;
   }
   
   .timeline-item {
-    padding-left: 40px;
+    padding-left: 0;
     margin-bottom: 1.5rem;
+    flex-direction: row !important;
+    align-items: center;
+    justify-content: center;
   }
   
-  .timeline-content {
+  /* Acoustic events - Left side (mobile) */
+  .timeline-item:has(.timeline-marker.acoustic) .timeline-content {
+    width: 42% !important;
+    max-width: 200px !important;
+    margin-right: auto !important;
+    margin-left: 5px !important;
+    order: -1;
+    padding: 0.8rem;
+  }
+  
+  /* Electric events - Right side (mobile) */
+  .timeline-item:has(.timeline-marker.electric) .timeline-content {
+    width: 42% !important;
+    max-width: 200px !important;
+    margin-left: auto !important;
+    margin-right: 5px !important;
+    order: 1;
     padding: 0.8rem;
   }
   
@@ -1133,7 +1217,7 @@ body {
   }
   
   .timeline-artist {
-    font-size: 1.1rem;
+    font-size: 1rem;
   }
   
   .timeline-stage {
