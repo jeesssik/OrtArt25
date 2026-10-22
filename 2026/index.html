@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ORT ART — 5 de Noviembre</title>
+  <link rel="icon" href="guit.png" type="image/png">
+  <meta name="description"
+    content="Line-up de ORT ART (5 de Noviembre): línea de tiempo del festival, en afiche amarillo y grafiti.">
+  <link rel="stylesheet" href="styles.css?v=marco3">
+  <script src="https://cdn.jsdelivr.net/npm/csv-js@1.0.0/csv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+</head>
+
+<body>
+  <a class="skip-link" href="#main">Saltar al contenido</a>
+
+  <header class="site-header" role="banner">
+    <h1 class="festival-title"><span class="title-text">ORT ART </span></h1>
+    <h3 class="festival-subtitle"><span class="subtitle-text">5 de Noviembre</span></h3>
+  </header>
+
+  <main id="main" class="site-main" role="main">
+    <section class="lineup" aria-labelledby="lineup-heading" id="app">
+      <h2 id="lineup-heading">Line-Up</h2>
+
+      <div class="timeline-container" role="group" aria-label="Línea de tiempo del evento">
+        <div class="timeline-line"></div>
+        <p v-if="errorCarga" class="timeline-error" role="status">{{ errorCarga }}</p>
+
+        <div v-for="(item, index) in eventos" :key="index" class="timeline-item" :data-time="item.hora">
+          <div :class="['timeline-marker', item.tipo]"></div>
+          <div class="timeline-content">
+            <div class="timeline-copy">
+              <div class="timeline-time">{{ item.horario }}</div>
+              <div class="timeline-artist">{{ item.banda }}</div>
+
+              <div class="timeline-stage" v-if="item.tipo === 'acoustic'">
+                Acústico
+              </div>
+              <div class="timeline-stage" v-else-if="item.tipo === 'electric'">
+                Eléctrico
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+
+
+  <div class="bg" aria-hidden="true">
+    <div class="paint-drips">
+      <span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span>
+    </div>
+    <div class="spray-field"></div>
+    <div class="graffiti-stickers"></div>
+  </div>
+  <script>
+    function poneElGnomo() {
+  const timeline = document.querySelector('.timeline-container');
+
+  // Elimina gnomo previo si existe
+  const gnomoExistente = timeline.querySelector('.gnomo-gif');
+  if (gnomoExistente) {
+    gnomoExistente.remove();
+  }
+
+  const now = new Date();
+  const currentMinutes = now.getHours() * 60 + now.getMinutes();
+
+  const cards = Array.from(document.querySelectorAll('.timeline-item'));
+  const times = cards.map(card => {
+    const timeStr = card.querySelector('.timeline-time').textContent.trim();
+    const [hour, minute] = timeStr.split(':').map(Number);
+    return hour * 60 + minute;
+  });
+
+  let idx = times.findIndex(t => t > currentMinutes);
+  if (idx === -1) idx = times.length - 1;
+  if (idx === 0) idx = 1;
+
+  const prevCard = cards[idx - 1];
+  const nextCard = cards[idx];
+  const prevTime = times[idx - 1];
+  const nextTime = times[idx];
+
+  let percent = 0;
+  if (nextTime !== undefined && nextTime !== prevTime) {
+    percent = (currentMinutes - prevTime) / (nextTime - prevTime);
+  }
+
+  const topPrev = prevCard.offsetTop;
+  const topNext = nextCard ? nextCard.offsetTop : topPrev;
+  const gnomoTop = topPrev + percent * (topNext - topPrev);
+
+  const gnomo = document.createElement('img');
+  gnomo.src = 'giphy.gif';
+  gnomo.alt = 'Gnomo marcador de hora';
+  gnomo.className = 'gnomo-gif';
+
+  gnomo.style.position = 'absolute';
+  gnomo.style.left = '50%';
+  gnomo.style.transform = 'translateX(-50%)';
+  gnomo.style.top = `${gnomoTop - 60}px`;
+  gnomo.style.width = '60px';
+  gnomo.style.pointerEvents = 'none';
+  gnomo.style.zIndex = '30';
+
+  timeline.style.position = 'relative';
+  timeline.appendChild(gnomo);
+}
+
+    function ajustarTextoTarjetas() {
+      document.querySelectorAll('.timeline-content').forEach(card => {
+        const copy = card.querySelector('.timeline-copy');
+        const artist = copy && copy.querySelector('.timeline-artist');
+        if (!copy || !artist) return;
+
+        const ancho = card.clientWidth;
+        const alto = card.clientHeight;
+        if (!ancho || !alto) return;
+
+        const limiteAncho = ancho * 0.5;
+        const limiteAlto = alto * 0.4;
+        copy.style.width = limiteAncho + 'px';
+
+        const time = copy.querySelector('.timeline-time');
+        const stage = copy.querySelector('.timeline-stage');
+        let size = Math.min(limiteAncho * 0.34, limiteAlto * 0.46);
+        const min = Math.max(8, ancho * 0.03);
+
+        const aplicar = (px) => {
+          artist.style.fontSize = px + 'px';
+          if (time) time.style.fontSize = (px * 0.72) + 'px';
+          if (stage) stage.style.fontSize = (px * 0.58) + 'px';
+        };
+
+        aplicar(size);
+        let guard = 0;
+        while (size > min && guard < 30 &&
+          (copy.scrollHeight > limiteAlto || copy.scrollWidth > copy.clientWidth + 1)) {
+          size *= 0.92;
+          aplicar(size);
+          guard++;
+        }
+      });
+    }
+
+    const SHEET = '2PACX-1vTmWjcpQvintbxgj4x-bJPo2irG-xNyBQ0sV6G6YT-vncGT4nEA6MxOT4gn9hHlGO3P55GgfK5LdOE8';
+    // La URL /pub?output=csv redirige a googleusercontent.com sin CORS en el salto.
+    // pubhtml responde 200 en docs.google.com y el navegador sí puede leerla.
+    const SHEET_HTML = 'https://docs.google.com/spreadsheets/d/e/' + SHEET + '/pubhtml/sheet?gid=0&single=true';
+    const SHEET_CSV = 'https://docs.google.com/spreadsheets/d/e/' + SHEET + '/pub?gid=0&single=true&output=csv';
+
+    function normalizar(texto) {
+      return (texto || '')
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '');
+    }
+
+    function tipoDe(escenario) {
+      const esc = normalizar(escenario);
+      return esc === '1' || esc.includes('electric') ? 'electric' : 'acoustic';
+    }
+
+    function textoCelda(valor) {
+      return (valor || '')
+        .replace(/\s+/g, ' ')
+        .trim()
+        .replace(/&#(\d+);/g, function (_, n) { return String.fromCharCode(Number(n)); })
+        .replace(/&apos;/g, "'")
+        .replace(/&quot;/g, '"')
+        .replace(/&amp;/g, '&');
+    }
+
+    function horarioDe(valor) {
+      const t = textoCelda(valor);
+      const m = t.match(/^(\d{1,2})[.:](\d{2})$/);
+      return m ? m[1] + ':' + m[2] : t;
+    }
+
+    function eventosDesdeFilas(filas) {
+      const limpias = filas.map(fila => fila.map(textoCelda));
+      const headerIndex = limpias.findIndex(fila => {
+        const headers = fila.map(normalizar);
+        return headers.includes('banda') && headers.includes('horario');
+      });
+      if (headerIndex < 0) {
+        throw new Error('La planilla no tiene las columnas banda y horario');
+      }
+
+      const headers = limpias[headerIndex].map(normalizar);
+      const iBanda = headers.indexOf('banda');
+      const iHorario = headers.indexOf('horario');
+      const iEscenario = headers.indexOf('escenario');
+      const eventos = [];
+
+      for (let i = headerIndex + 1; i < limpias.length; i++) {
+        const fila = limpias[i];
+        const banda = fila[iBanda] || '';
+        const horario = horarioDe(fila[iHorario] || '');
+        if (!banda || !horario) continue;
+        const escenario = iEscenario >= 0 ? (fila[iEscenario] || '') : '';
+        eventos.push({ banda, escenario, horario, tipo: tipoDe(escenario) });
+      }
+
+      if (!eventos.length) throw new Error('La planilla no tiene eventos');
+      return eventos;
+    }
+
+    function filasDesdeHtml(html) {
+      const doc = new DOMParser().parseFromString(html, 'text/html');
+      const filas = [...doc.querySelectorAll('table.waffle tbody tr')];
+      if (!filas.length) throw new Error('Google no devolvió la planilla');
+      return eventosDesdeFilas(filas.map(tr =>
+        [...tr.querySelectorAll('td')].map(td => td.textContent)
+      ));
+    }
+
+    function filasDesdeCsv(texto) {
+      const src = texto.replace(/^\uFEFF/, '');
+      if (!src.trim() || src.trim().startsWith('<')) {
+        throw new Error('La respuesta no es un CSV');
+      }
+      const filas = [];
+      let fila = [];
+      let celda = '';
+      let entreComillas = false;
+
+      for (let i = 0; i < src.length; i++) {
+        const ch = src[i];
+        if (entreComillas) {
+          if (ch === '"') {
+            if (src[i + 1] === '"') {
+              celda += '"';
+              i++;
+            } else {
+              entreComillas = false;
+            }
+          } else {
+            celda += ch;
+          }
+        } else if (ch === '"') {
+          entreComillas = true;
+        } else if (ch === ',') {
+          fila.push(celda);
+          celda = '';
+        } else if (ch === '\n') {
+          fila.push(celda);
+          filas.push(fila);
+          fila = [];
+          celda = '';
+        } else if (ch !== '\r') {
+          celda += ch;
+        }
+      }
+      if (celda.length || fila.length) {
+        fila.push(celda);
+        filas.push(fila);
+      }
+      return eventosDesdeFilas(filas);
+    }
+
+    function leerTexto(url) {
+      return fetch(url, { cache: 'no-store', credentials: 'omit' }).then(res => {
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        return res.text();
+      });
+    }
+
+    new Vue({
+  el: '#app',
+  data: {
+    eventos: [],
+    errorCarga: ''
+  },
+  mounted() {
+    const cargarEventos = () => {
+      const fuentes = [
+        () => leerTexto('eventos.csv').then(filasDesdeCsv),
+        () => leerTexto(SHEET_HTML).then(filasDesdeHtml),
+        () => leerTexto(SHEET_CSV).then(filasDesdeCsv)
+      ];
+
+      const intentar = (indice, ultimoError) => {
+        if (indice >= fuentes.length) {
+          console.error('Error cargando la planilla:', ultimoError);
+          if (!this.eventos.length) {
+            this.errorCarga = 'No se pudo cargar el line-up desde eventos.csv.';
+          }
+          return;
+        }
+        fuentes[indice]()
+          .then(eventos => {
+            this.eventos = eventos;
+            this.errorCarga = '';
+            this.$nextTick(() => {
+              ajustarTextoTarjetas();
+              poneElGnomo();
+            });
+          })
+          .catch(err => intentar(indice + 1, err));
+      };
+
+      intentar(0);
+    };
+
+    cargarEventos();
+    setInterval(cargarEventos, 30000);
+    window.addEventListener('resize', () => {
+      ajustarTextoTarjetas();
+      if (document.querySelector('.timeline-item')) poneElGnomo();
+    });
+  }
+});
+
+  </script>
+  <script src="script.js?v=painterz"></script>
+</body>
+
+</html>
