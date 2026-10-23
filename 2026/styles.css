@@ -193,7 +193,8 @@ body {
   .paint-drips span,
   .spray-field::before,
   .spray-field::after,
-  .title-text {
+  .title-text,
+  .marcador-ahora {
     animation: none;
   }
 }
@@ -1359,14 +1360,25 @@ body {
   animation: magicalPulse 2s ease-in-out infinite;
 }
 
-.gnomo-gif {
-  animation: bounce 1s infinite alternate;
+.marcador-ahora {
+  position: absolute;
+  left: 50%;
+  width: 210px;
+  height: auto;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 30;
+  filter: drop-shadow(3px 4px 0 rgba(26, 16, 32, 0.28));
+  animation: marcadorBob 1.2s ease-in-out infinite alternate;
 }
 
-@keyframes bounce {
-  to {
-    transform: translateX(-50%) translateY(-10px);
-  }
+@keyframes marcadorBob {
+  from { transform: translate(-50%, -50%) rotate(-10deg); }
+  to { transform: translate(-50%, -50%) translateY(-8px) rotate(12deg); }
+}
+
+@media (max-width: 770px) {
+  .marcador-ahora { width: 150px; }
 }
 
 .timeline-item .timeline-content {

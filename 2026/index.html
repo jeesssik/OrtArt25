@@ -8,7 +8,7 @@
   <link rel="icon" href="guit.png" type="image/png">
   <meta name="description"
     content="Line-up de ORT ART (5 de Noviembre): línea de tiempo del festival, en afiche amarillo y grafiti.">
-  <link rel="stylesheet" href="styles.css?v=marco3">
+  <link rel="stylesheet" href="styles.css?v=marcador2">
   <script src="https://cdn.jsdelivr.net/npm/csv-js@1.0.0/csv.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
 </head>
@@ -60,59 +60,65 @@
     <div class="graffiti-stickers"></div>
   </div>
   <script>
+    let marcadorListo = null;
+
+    function urlDelMarcador() {
+      if (marcadorListo) return marcadorListo;
+      const src = 'elementos/' + encodeURIComponent('Copia de Asterisco celeste.png');
+      marcadorListo = (typeof prepararPieza === 'function' ? prepararPieza(src) : Promise.resolve(src))
+        .catch(function () { return src; });
+      return marcadorListo;
+    }
+
+    function centroDe(card) {
+      return card.offsetTop + card.offsetHeight / 2;
+    }
+
     function poneElGnomo() {
-  const timeline = document.querySelector('.timeline-container');
+      const timeline = document.querySelector('.timeline-container');
+      if (!timeline) return;
 
-  // Elimina gnomo previo si existe
-  const gnomoExistente = timeline.querySelector('.gnomo-gif');
-  if (gnomoExistente) {
-    gnomoExistente.remove();
-  }
+      const cards = Array.from(document.querySelectorAll('.timeline-item'));
+      if (!cards.length) return;
 
-  const now = new Date();
-  const currentMinutes = now.getHours() * 60 + now.getMinutes();
+      const now = new Date();
+      const currentMinutes = now.getHours() * 60 + now.getMinutes();
+      const times = cards.map(card => {
+        const timeStr = card.querySelector('.timeline-time').textContent.trim();
+        const partes = timeStr.split(':').map(Number);
+        return partes[0] * 60 + partes[1];
+      });
 
-  const cards = Array.from(document.querySelectorAll('.timeline-item'));
-  const times = cards.map(card => {
-    const timeStr = card.querySelector('.timeline-time').textContent.trim();
-    const [hour, minute] = timeStr.split(':').map(Number);
-    return hour * 60 + minute;
-  });
+      let idx = times.findIndex(t => t > currentMinutes);
+      if (idx === -1) idx = times.length - 1;
+      if (idx === 0) idx = 1;
 
-  let idx = times.findIndex(t => t > currentMinutes);
-  if (idx === -1) idx = times.length - 1;
-  if (idx === 0) idx = 1;
+      const prevCard = cards[idx - 1];
+      const nextCard = cards[idx];
+      if (!prevCard) return;
 
-  const prevCard = cards[idx - 1];
-  const nextCard = cards[idx];
-  const prevTime = times[idx - 1];
-  const nextTime = times[idx];
+      const prevTime = times[idx - 1];
+      const nextTime = times[idx];
+      let percent = 0;
+      if (nextTime !== undefined && nextTime !== prevTime) {
+        percent = (currentMinutes - prevTime) / (nextTime - prevTime);
+        percent = Math.min(1, Math.max(0, percent));
+      }
 
-  let percent = 0;
-  if (nextTime !== undefined && nextTime !== prevTime) {
-    percent = (currentMinutes - prevTime) / (nextTime - prevTime);
-  }
+      const y = centroDe(prevCard) + percent * (centroDe(nextCard || prevCard) - centroDe(prevCard));
 
-  const topPrev = prevCard.offsetTop;
-  const topNext = nextCard ? nextCard.offsetTop : topPrev;
-  const gnomoTop = topPrev + percent * (topNext - topPrev);
-
-  const gnomo = document.createElement('img');
-  gnomo.src = 'giphy.gif';
-  gnomo.alt = 'Gnomo marcador de hora';
-  gnomo.className = 'gnomo-gif';
-
-  gnomo.style.position = 'absolute';
-  gnomo.style.left = '50%';
-  gnomo.style.transform = 'translateX(-50%)';
-  gnomo.style.top = `${gnomoTop - 60}px`;
-  gnomo.style.width = '60px';
-  gnomo.style.pointerEvents = 'none';
-  gnomo.style.zIndex = '30';
-
-  timeline.style.position = 'relative';
-  timeline.appendChild(gnomo);
-}
+      urlDelMarcador().then(function (src) {
+        let marca = timeline.querySelector('.marcador-ahora');
+        if (!marca) {
+          marca = document.createElement('img');
+          marca.className = 'marcador-ahora';
+          marca.alt = 'Ahora en la línea de tiempo';
+          timeline.appendChild(marca);
+        }
+        if (marca.getAttribute('src') !== src) marca.src = src;
+        marca.style.top = y + 'px';
+      });
+    }
 
     function ajustarTextoTarjetas() {
       document.querySelectorAll('.timeline-content').forEach(card => {
