@@ -5,10 +5,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>ORT ART — 5 de Noviembre</title>
-  <link rel="icon" href="guit.png" type="image/png">
+  <link rel="icon" href="favicon.png" type="image/png">
   <meta name="description"
     content="Line-up de ORT ART (5 de Noviembre): línea de tiempo del festival, en afiche amarillo y grafiti.">
-  <link rel="stylesheet" href="styles.css?v=spooky">
+  <link rel="stylesheet" href="styles.css?v=fondo">
   <script src="https://cdn.jsdelivr.net/npm/csv-js@1.0.0/csv.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
 </head>
@@ -17,7 +17,14 @@
   <a class="skip-link" href="#main">Saltar al contenido</a>
 
   <header class="site-header" role="banner">
-    <h1 class="festival-title"><span class="title-text">ORT ART </span></h1>
+    <h1 class="festival-title">
+      <span class="title-logos" aria-hidden="true">
+        <img class="title-logo logo-purple" src="elementos/nombreEvento/Untitled_Artwork(1).png" alt="">
+        <img class="title-logo logo-yellow" src="elementos/nombreEvento/Untitled_Artwork(2).png" alt="">
+        <img class="title-logo logo-teal" src="elementos/nombreEvento/Untitled_Artwork.png" alt="">
+      </span>
+      <span class="visually-hidden">ORT ART</span>
+    </h1>
     <h3 class="festival-subtitle"><span class="subtitle-text">5 de Noviembre</span></h3>
   </header>
 
@@ -52,10 +59,6 @@
 
 
   <div class="bg" aria-hidden="true">
-    <div class="paint-drips">
-      <span></span><span></span><span></span><span></span>
-      <span></span><span></span><span></span><span></span>
-    </div>
     <div class="spray-field"></div>
     <div class="graffiti-stickers"></div>
   </div>
@@ -64,7 +67,7 @@
 
     function urlDelMarcador() {
       if (marcadorListo) return marcadorListo;
-      const src = 'elementos/' + encodeURIComponent('Copia de Asterisco celeste.png');
+      const src = 'elementos/' + encodeURIComponent('Asterisco celeste.png');
       marcadorListo = (typeof prepararPieza === 'function' ? prepararPieza(src) : Promise.resolve(src))
         .catch(function () { return src; });
       return marcadorListo;
@@ -326,7 +329,7 @@
 });
 
   </script>
-  <script src="script.js?v=painterz"></script>
+  <script src="script.js?v=fondo"></script>
 </body>
 
 </html>

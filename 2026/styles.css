@@ -17,27 +17,31 @@
 }
 
 :root {
-  --forest-dark: #062814;
-  --forest-green: #114022;
-  --forest-light: #2fa65a;
-  --magic-purple: #7b49d1;
-  --magic-pink: #ff4d88;
-  --magic-blue: #2ad6c0;
-  --magic-gold: #ffdf33;
-  --magic-silver: #e6e6e6;
-  --mist-white: rgba(255, 255, 255, 0.15);
-  --sparkle-gold: #ffd700;
+  --ink: #2C002C;
+  --teal: #007A77;
+  --yellow: #F3F300;
+  --forest-dark: #2C002C;
+  --forest-green: #007A77;
+  --forest-light: #007A77;
+  --magic-purple: #2C002C;
+  --magic-pink: #2C002C;
+  --magic-blue: #007A77;
+  --magic-gold: #F3F300;
+  --magic-silver: #F3F300;
+  --mist-white: rgba(44, 0, 44, 0.15);
+  --sparkle-gold: #F3F300;
 }
 
 body {
   font-family: 'BTC Spooky Grotesk', sans-serif;
-  background-color: #f4e20a;
+  background-color: #F3F300;
   background-image: url('fondo.png');
+  background-blend-mode: luminosity;
   background-size: cover;
   background-position: center top;
   background-attachment: fixed;
   background-repeat: no-repeat;
-  color: #1a1020;
+  color: #2C002C;
   overflow-x: hidden;
   min-height: 100vh;
   position: relative;
@@ -57,7 +61,6 @@ body {
 }
 
 .graffiti-stickers,
-.paint-drips,
 .spray-field {
   position: absolute;
   inset: 0;
@@ -71,7 +74,7 @@ body {
   transform-origin: center;
   animation: stickerFloat var(--dur, 16s) ease-in-out infinite;
   animation-delay: var(--delay, 0s);
-  filter: drop-shadow(3px 6px 0 rgba(26, 16, 32, 0.18));
+  filter: drop-shadow(3px 6px 0 rgba(44, 0, 44, 0.18));
   user-select: none;
 }
 
@@ -100,33 +103,6 @@ body {
   50% { transform: rotate(1.5deg); }
 }
 
-.paint-drips span {
-  position: absolute;
-  top: 0;
-  width: 12px;
-  height: var(--largo, 90px);
-  border-radius: 0 0 16px 16px;
-  transform-origin: top center;
-  animation: drip 8s ease-in-out infinite;
-  opacity: 0.9;
-}
-
-.paint-drips span:nth-child(odd) { background: #6d1b86; }
-.paint-drips span:nth-child(even) { background: #12b5b0; }
-.paint-drips span:nth-child(1) { left: 6%; --largo: 70px; animation-delay: 0s; }
-.paint-drips span:nth-child(2) { left: 18%; --largo: 130px; animation-delay: 1.2s; width: 8px; }
-.paint-drips span:nth-child(3) { left: 34%; --largo: 48px; animation-delay: 0.4s; }
-.paint-drips span:nth-child(4) { left: 72%; --largo: 110px; animation-delay: 2s; }
-.paint-drips span:nth-child(5) { left: 81%; --largo: 64px; animation-delay: 0.8s; width: 16px; }
-.paint-drips span:nth-child(6) { left: 90%; --largo: 150px; animation-delay: 1.6s; }
-.paint-drips span:nth-child(7) { left: 47%; --largo: 36px; animation-delay: 2.4s; width: 7px; }
-.paint-drips span:nth-child(8) { left: 58%; --largo: 88px; animation-delay: 0.2s; }
-
-@keyframes drip {
-  0%, 100% { transform: scaleY(0.45); }
-  50% { transform: scaleY(1); }
-}
-
 .spray-field::before,
 .spray-field::after {
   content: '';
@@ -140,28 +116,28 @@ body {
 .spray-field::before {
   top: 22%;
   left: 4%;
-  background: #6d1b86;
+  background: #2C002C;
   box-shadow:
-    16px 8px 0 #12b5b0,
-    34px -4px 0 #6d1b86,
-    22px 22px 0 2px #12b5b0,
-    48px 14px 0 #1a1020,
-    8px 28px 0 #6d1b86,
-    40px 32px 0 #12b5b0;
+    16px 8px 0 #007A77,
+    34px -4px 0 #2C002C,
+    22px 22px 0 2px #007A77,
+    48px 14px 0 #2C002C,
+    8px 28px 0 #2C002C,
+    40px 32px 0 #007A77;
 }
 
 .spray-field::after {
   right: 5%;
   bottom: 12%;
-  background: #12b5b0;
+  background: #007A77;
   animation-delay: 1.4s;
   box-shadow:
-    -18px 6px 0 #6d1b86,
-    -36px -8px 0 #12b5b0,
-    -14px -20px 0 #1a1020,
-    -30px 18px 0 1px #6d1b86,
-    -46px 10px 0 #12b5b0,
-    10px -12px 0 #6d1b86;
+    -18px 6px 0 #2C002C,
+    -36px -8px 0 #007A77,
+    -14px -20px 0 #2C002C,
+    -30px 18px 0 1px #2C002C,
+    -46px 10px 0 #007A77,
+    10px -12px 0 #2C002C;
 }
 
 @keyframes sprayPulse {
@@ -185,16 +161,14 @@ body {
 
 @media (max-width: 700px) {
   .sticker { width: calc(var(--size, 160px) * 0.55); height: calc(var(--size, 160px) * 0.55); }
-  .paint-drips span:nth-child(3),
-  .paint-drips span:nth-child(7) { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .sticker,
-  .paint-drips span,
   .spray-field::before,
   .spray-field::after,
-  .title-text,
+  .festival-title,
+  .title-logo,
   .marcador-ahora {
     animation: none;
   }
@@ -712,50 +686,83 @@ body {
 
 .festival-title {
   position: relative;
-  display: inline-block;
-  padding: 10px 20px;
-  border-radius: 14px;
+  display: block;
+  width: min(92vw, 720px);
+  margin: 0 auto;
+  padding: 0;
   z-index: 20;
-
-  
-  /* Mantener tamaño / movimiento */
-  animation: titleFloat 6s ease-in-out infinite;
-  overflow: visible;
+  animation: titleFloat 6.5s ease-in-out infinite;
 }
 
-/* Texto con degradado vivo y shimmer limitado SOLO a las letras */
-.title-text {
-  font-family: 'BTC Spooky Grotesk', sans-serif;
-  font-size: 11rem;
-  font-weight: 700;
-  line-height: 0.85;
-  display: inline-block;
+.title-logos {
   position: relative;
-  z-index: 10;
-  color: #1a1020;
-  letter-spacing: 1px;
-  /* desfasaje de impresión, típico del afiche de los 60/70 */
-  text-shadow:
-    5px 4px 0 #12b5b0,
-    -4px -2px 0 #6d1b86;
-  animation: titleWobble 5.5s ease-in-out infinite;
+  display: block;
+  width: 100%;
+  aspect-ratio: 2851 / 1620;
 }
 
-/* opcional: dejar chispas discretas pero sin afectar el renglón */
-.festival-title::after {
-  content: '';
+.title-logo {
   position: absolute;
-  top: -6%;
-  right: -4%;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, #fffef0 0%, #fff06b 30%, transparent 60%);
-  box-shadow: -20px 6px 10px rgba(255,230,110,0.18), -8px 26px 12px rgba(255,43,106,0.12);
-  filter: blur(0.6px);
-  opacity: 0.85;
-  animation: titleSpark 4s ease-in-out infinite;
-  z-index: 6;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+  visibility: hidden;
+}
+
+.title-logo.listo { visibility: visible; }
+
+/* De adelante hacia atrás: violeta, amarillo, cian */
+.logo-purple {
+  z-index: 3;
+  transform: translate(0, 0);
+  animation: driftPurple 6.2s ease-in-out infinite;
+}
+
+.logo-yellow {
+  z-index: 2;
+  transform: translate(14px, 10px);
+  animation: driftYellow 5.6s ease-in-out infinite;
+}
+
+.logo-teal {
+  z-index: 1;
+  transform: translate(28px, 18px);
+  animation: driftTeal 4.8s ease-in-out infinite;
+}
+
+@keyframes titleFloat {
+  0%, 100% { transform: translateY(0) rotate(-1deg); }
+  50% { transform: translateY(-12px) rotate(1deg); }
+}
+
+@keyframes driftPurple {
+  0%, 100% { transform: translate(0, 0) rotate(-0.4deg); }
+  50% { transform: translate(3px, -4px) rotate(0.7deg); }
+}
+
+@keyframes driftYellow {
+  0%, 100% { transform: translate(14px, 10px) rotate(0.6deg); }
+  50% { transform: translate(20px, 16px) rotate(-0.8deg); }
+}
+
+@keyframes driftTeal {
+  0%, 100% { transform: translate(28px, 18px) rotate(-1deg); }
+  50% { transform: translate(36px, 26px) rotate(1.2deg); }
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 /* animación del gradiente SOLO para el texto */
@@ -768,14 +775,14 @@ body {
 .festival-subtitle {
   font-family: 'BTC Spooky Grotesk', sans-serif;
   font-size: 1.2rem;
-  color: #f4e20a;
+  color: #F3F300;
   letter-spacing: 0.5px;
   display: inline-block;
   margin-top: 0.4rem;
   padding: 0.25rem 0.9rem;
-  background: #1a1020;
-  border: 3px solid #1a1020;
-  box-shadow: 4px 4px 0 #12b5b0;
+  background: #2C002C;
+  border: 3px solid #2C002C;
+  box-shadow: 4px 4px 0 #007A77;
   transform: rotate(-2deg);
 }
 
@@ -789,9 +796,9 @@ body {
   text-align: center;
   font-family: 'BTC Spooky Grotesk', sans-serif;
   font-size: 2.8rem;
-  color: #1a1020;
+  color: #2C002C;
   margin-bottom: 2rem;
-  text-shadow: 3px 3px 0 #12b5b0, -2px -2px 0 #6d1b86;
+  text-shadow: 3px 3px 0 #007A77, -2px -2px 0 #2C002C;
   letter-spacing: 1px;
 }
 
@@ -809,8 +816,8 @@ body {
   margin: 0 auto 1.5rem;
   max-width: 36rem;
   text-align: center;
-  color: #f4e20a;
-  background: #1a1020;
+  color: #F3F300;
+  background: #2C002C;
   padding: 0.6rem 1rem;
 }
 
@@ -820,12 +827,12 @@ body {
   top: 0;
   bottom: 0;
   width: 6px;
-  background: #1a1020;
+  background: #2C002C;
   transform: translateX(-50%);
   border-radius: 2px;
   box-shadow:
-    5px 0 0 #12b5b0,
-    -5px 0 0 #6d1b86;
+    5px 0 0 #007A77,
+    -5px 0 0 #2C002C;
 }
 
 .timeline-item {
@@ -1046,8 +1053,8 @@ body {
   position: absolute;
   top: -40px;
   left: 6px;
-  background: var(--magic-purple);
-  color: white;
+  background: #2C002C;
+  color: #F3F300;
   padding: 8px;
   text-decoration: none;
   border-radius: 4px;
@@ -1067,27 +1074,27 @@ body {
   border-radius: 50%;
   transform: translate(-50%, -50%);
   z-index: 2;
-  border: 3px solid #1a1020;
-  box-shadow: 3px 3px 0 #12b5b0;
+  border: 3px solid #2C002C;
+  box-shadow: 3px 3px 0 #007A77;
   animation: markerPulse 2s ease-in-out infinite;
 }
 
 .timeline-marker.acoustic {
-  background: #6d1b86;
+  background: #2C002C;
 }
 
 .timeline-marker.electric {
-  background: #12b5b0;
+  background: #007A77;
 }
 
 @keyframes markerPulse {
   0%, 100% {
     transform: translate(-50%, -50%) scale(1);
-    box-shadow: 3px 3px 0 #12b5b0;
+    box-shadow: 3px 3px 0 #007A77;
   }
   50% {
     transform: translate(-50%, -50%) scale(1.1);
-    box-shadow: 3px 3px 0 #6d1b86;
+    box-shadow: 3px 3px 0 #2C002C;
   }
 }
 
@@ -1102,7 +1109,7 @@ body {
   aspect-ratio: 4 / 3;
   container-type: inline-size;
   background: transparent;
-  color: #1a1020;
+  color: #2C002C;
   padding: 0;
   border: none;
   border-radius: 0;
@@ -1110,13 +1117,14 @@ body {
   transition: transform 0.3s ease;
 }
 
-/* El PNG trae el aerosol violeta y el centro vacío. Se estira sobre la tarjeta. */
+/* El PNG define la forma del aerosol; el color es el violeta de la paleta. */
 .timeline-content::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: url('marco.png') center / 100% 100% no-repeat;
-  filter: brightness(2.8) saturate(1.7);
+  background: #2C002C;
+  -webkit-mask: url('marco.png') center / 100% 100% no-repeat;
+  mask: url('marco.png') center / 100% 100% no-repeat;
   pointer-events: none;
   z-index: 2;
 }
@@ -1158,7 +1166,7 @@ body {
   font-family: 'BTC Spooky Grotesk', sans-serif;
   font-size: 7.2cqw;
   font-weight: 600;
-  color: #6d1b86;
+  color: #2C002C;
   text-shadow: none;
   margin-bottom: 0.15rem;
   letter-spacing: 0.5px;
@@ -1170,7 +1178,7 @@ body {
   font-family: 'BTC Spooky Grotesk', sans-serif;
   font-size: 9cqw;
   font-weight: 700;
-  color: #1a1020;
+  color: #2C002C;
   margin-bottom: 0.15rem;
   text-shadow: none;
   letter-spacing: 0.5px;
@@ -1183,7 +1191,7 @@ body {
 .timeline-stage {
   font-family: 'BTC Spooky Grotesk', sans-serif;
   font-size: 5.6cqw;
-  color: #0e7c78;
+  color: #007A77;
   opacity: 1;
   letter-spacing: 0.3px;
   position: relative;
@@ -1249,12 +1257,7 @@ body {
 
 @media (max-width: 768px) {
   .festival-title {
-    font-size: 3.2rem;
-    padding: 6px 12px;
-  }
-
-  .title-text {
-    font-size: 6.4rem;
+    width: min(94vw, 520px);
   }
   
   .lineup h2 {
@@ -1284,15 +1287,7 @@ body {
 /* Mobile pequeño */
 @media (max-width: 480px) {
   .festival-title {
-    font-size: 2.6rem;
-    padding: 4px 10px;
-  }
-
-  .title-text {
-    font-size: 3.9rem;
-    text-shadow:
-      3px 2px 0 #12b5b0,
-      -2px -1px 0 #6d1b86;
+    width: 94vw;
   }
   
   .lineup h2 {
@@ -1369,7 +1364,7 @@ body {
   transform: translate(-50%, -50%);
   pointer-events: none;
   z-index: 30;
-  filter: drop-shadow(3px 4px 0 rgba(26, 16, 32, 0.28));
+  filter: drop-shadow(3px 4px 0 rgba(44, 0, 44, 0.28));
   animation: marcadorBob 1.2s ease-in-out infinite alternate;
 }
 
@@ -1386,12 +1381,12 @@ body {
   width: 45%;
   max-width: 520px;
   background: transparent;
-  color: #1a1020;
+  color: #2C002C;
   padding: 0;
   border: none;
   border-radius: 0;
   box-shadow: none;
 }
 
-.timeline-time { font-weight: 700; color: #6d1b86; }
-.timeline-artist { color: #1a1020; }
+.timeline-time { font-weight: 700; color: #2C002C; }
+.timeline-artist { color: #2C002C; }
