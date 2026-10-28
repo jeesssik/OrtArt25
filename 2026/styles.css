@@ -1,7 +1,8 @@
-/* Fuente del afiche: Painterz.ttf */
+/* Fuente del afiche: BTC Spooky Grotesk */
 @font-face {
-  font-family: 'Painterz';
-  src: url('Painterz.ttf') format('truetype');
+  font-family: 'BTC Spooky Grotesk';
+  src: url('elementos/BTC Spooky Grotesk/_woff/BTCSpookyGrotesk.woff') format('woff'),
+       url('elementos/BTC Spooky Grotesk/_woff/BTCSpookyGrotesk.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -12,7 +13,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Painterz', sans-serif;
+  font-family: 'BTC Spooky Grotesk', sans-serif;
 }
 
 :root {
@@ -29,7 +30,7 @@
 }
 
 body {
-  font-family: 'Painterz', sans-serif;
+  font-family: 'BTC Spooky Grotesk', sans-serif;
   background-color: #f4e20a;
   background-image: url('fondo.png');
   background-size: cover;
@@ -724,7 +725,7 @@ body {
 
 /* Texto con degradado vivo y shimmer limitado SOLO a las letras */
 .title-text {
-  font-family: 'Painterz', sans-serif;
+  font-family: 'BTC Spooky Grotesk', sans-serif;
   font-size: 11rem;
   font-weight: 700;
   line-height: 0.85;
@@ -765,7 +766,7 @@ body {
 }
 
 .festival-subtitle {
-  font-family: 'Painterz', sans-serif;
+  font-family: 'BTC Spooky Grotesk', sans-serif;
   font-size: 1.2rem;
   color: #f4e20a;
   letter-spacing: 0.5px;
@@ -786,7 +787,7 @@ body {
 
 .lineup h2 {
   text-align: center;
-  font-family: 'Painterz', sans-serif;
+  font-family: 'BTC Spooky Grotesk', sans-serif;
   font-size: 2.8rem;
   color: #1a1020;
   margin-bottom: 2rem;
@@ -958,7 +959,7 @@ body {
 }
 
 .stage-card h3 {
-  font-family: 'Painterz', sans-serif;
+  font-family: 'BTC Spooky Grotesk', sans-serif;
   font-size: 1.6rem;
   color: var(--magic-gold);
   margin-bottom: 1.2rem;
@@ -1036,7 +1037,7 @@ body {
   z-index: 10;
   color: var(--magic-silver);
   text-shadow: 0 0 5px var(--magic-silver);
-  font-family: 'Painterz', sans-serif;
+  font-family: 'BTC Spooky Grotesk', sans-serif;
   font-size: 1.1rem;
   letter-spacing: 1px;
 }
@@ -1154,7 +1155,7 @@ body {
 }
 
 .timeline-time {
-  font-family: 'Painterz', sans-serif;
+  font-family: 'BTC Spooky Grotesk', sans-serif;
   font-size: 7.2cqw;
   font-weight: 600;
   color: #6d1b86;
@@ -1166,7 +1167,7 @@ body {
 }
 
 .timeline-artist {
-  font-family: 'Painterz', sans-serif;
+  font-family: 'BTC Spooky Grotesk', sans-serif;
   font-size: 9cqw;
   font-weight: 700;
   color: #1a1020;
@@ -1180,7 +1181,7 @@ body {
 }
 
 .timeline-stage {
-  font-family: 'Painterz', sans-serif;
+  font-family: 'BTC Spooky Grotesk', sans-serif;
   font-size: 5.6cqw;
   color: #0e7c78;
   opacity: 1;
