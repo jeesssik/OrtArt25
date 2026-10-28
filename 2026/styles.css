@@ -1117,16 +1117,18 @@ body {
   transition: transform 0.3s ease;
 }
 
-/* El PNG define la forma del aerosol; el color es el violeta de la paleta. */
+/* Nube violeta a la izquierda; nube celeste a la derecha. */
 .timeline-content::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: #2C002C;
-  -webkit-mask: url('marco.png') center / 100% 100% no-repeat;
-  mask: url('marco.png') center / 100% 100% no-repeat;
+  background: url('Nube violeta.png') center / 100% 100% no-repeat;
   pointer-events: none;
   z-index: 2;
+}
+
+.timeline-item:has(.timeline-marker.electric) .timeline-content::after {
+  background-image: url('Nube celeste.png');
 }
 
 .timeline-copy {
