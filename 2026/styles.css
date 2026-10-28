@@ -102,6 +102,13 @@ body {
   50% { transform: rotate(1.5deg); }
 }
 
+.estela-aerosol {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 80;
+}
+
 .spray-pop {
   position: fixed;
   width: 8px;

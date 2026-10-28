@@ -1,10 +1,11 @@
 // Piezas de grafiti sobre el afiche amarillo.
 document.addEventListener('DOMContentLoaded', function () {
   montarTitulo();
+  const reducir = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reducir) estelaAerosol();
   const capa = document.querySelector('.graffiti-stickers');
   if (!capa) return;
 
-  const reducir = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   montarStickers(capa, reducir);
   if (!reducir) sprayAlClick();
 });
@@ -148,6 +149,87 @@ function quitarFondoTitulo(img) {
 
   ctx.putImageData(frame, 0, 0);
   return canvas.toDataURL('image/png');
+}
+
+function estelaAerosol() {
+  if (window.matchMedia('(hover: none)').matches) return;
+
+  const canvas = document.createElement('canvas');
+  canvas.className = 'estela-aerosol';
+  canvas.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(canvas);
+  const ctx = canvas.getContext('2d');
+  const colores = ['#2C002C', '#2C002C', '#007A77', '#007A77', '#F3F300'];
+  const gotas = [];
+  let ancho = 0;
+  let alto = 0;
+  let ultimo = null;
+
+  function medir() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    ancho = window.innerWidth;
+    alto = window.innerHeight;
+    canvas.width = Math.round(ancho * dpr);
+    canvas.height = Math.round(alto * dpr);
+    canvas.style.width = ancho + 'px';
+    canvas.style.height = alto + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+
+  function salpicar(x, y) {
+    const cantidad = 2 + (Math.random() < 0.35 ? 1 : 0);
+    for (let i = 0; i < cantidad; i++) {
+      const ang = Math.random() * Math.PI * 2;
+      const radio = 6 + Math.random() * 16;
+      gotas.push({
+        x: x + Math.cos(ang) * radio,
+        y: y + Math.sin(ang) * radio,
+        r: 1.2 + Math.random() * 1.6,
+        color: colores[(Math.random() * colores.length) | 0],
+        life: 0.55 + Math.random() * 0.25
+      });
+    }
+    if (gotas.length > 240) gotas.splice(0, gotas.length - 240);
+  }
+
+  medir();
+  window.addEventListener('resize', medir);
+  window.addEventListener('pointermove', function (e) {
+    if (e.pointerType === 'touch') return;
+    if (ultimo) {
+      const dx = e.clientX - ultimo.x;
+      const dy = e.clientY - ultimo.y;
+      const dist = Math.hypot(dx, dy);
+      if (dist < 36) return;
+      const pasos = Math.min(3, Math.max(1, Math.floor(dist / 48)));
+      for (let s = 1; s <= pasos; s++) {
+        salpicar(ultimo.x + dx * (s / pasos), ultimo.y + dy * (s / pasos));
+      }
+    }
+    ultimo = { x: e.clientX, y: e.clientY };
+  });
+
+  function cuadro() {
+    if (gotas.length) {
+      ctx.clearRect(0, 0, ancho, alto);
+      for (let i = gotas.length - 1; i >= 0; i--) {
+        const g = gotas[i];
+        g.life -= 0.012;
+        if (g.life <= 0) {
+          gotas.splice(i, 1);
+          continue;
+        }
+        ctx.globalAlpha = g.life * 0.72;
+        ctx.fillStyle = g.color;
+        ctx.beginPath();
+        ctx.arc(g.x, g.y, g.r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+    }
+    requestAnimationFrame(cuadro);
+  }
+  requestAnimationFrame(cuadro);
 }
 
 function sprayAlClick() {
