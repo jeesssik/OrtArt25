@@ -22,7 +22,10 @@ const ARCHIVOS = [
   'Estrella amarilla.png',
   'Linea celeste.png',
   'Línea viooleta.png',
-  'Línea amarilla.png'
+  'Línea amarilla.png',
+  'Logo chico celeste.png',
+  'Logo chico violeta.png',
+  'Logo chico amarillo.png'
 ];
 
 // Repartidas en los bordes para no tapar la línea de tiempo.
@@ -38,15 +41,21 @@ const PUESTOS = [
   { archivo: 5, top: '16%', left: '42%', size: 110, rot: 15, dx: 8, dy: -12, spin: 24, dur: 11 },
   { archivo: 9, top: '46%', left: '-2%', size: 280, rot: -8, dx: 10, dy: 8, spin: 6, dur: 18 },
   { archivo: 10, top: '70%', left: '86%', size: 260, rot: 12, dx: -12, dy: -10, spin: -8, dur: 16 },
-  { archivo: 11, top: '18%', left: '88%', size: 240, rot: -18, dx: -8, dy: 12, spin: 8, dur: 19 }
+  { archivo: 11, top: '18%', left: '88%', size: 240, rot: -18, dx: -8, dy: 12, spin: 8, dur: 19 },
+  { archivo: 12, top: '86%', left: '-6%', size: 380, rot: -12, dx: 18, dy: -20, spin: 10, dur: 16 },
+  { archivo: 13, top: '46%', left: '90%', size: 360, rot: 14, dx: -16, dy: 18, spin: -12, dur: 18 },
+  { archivo: 14, top: '6%', left: '18%', size: 320, rot: 8, dx: 12, dy: -14, spin: 8, dur: 15 }
 ];
 
 function montarStickers(capa, reducir) {
   const urls = new Map();
 
-  Promise.all(ARCHIVOS.map(nombre => prepararPieza('elementos/' + encodeURIComponent(nombre))
-    .then(url => urls.set(nombre, url))
-    .catch(() => urls.set(nombre, 'elementos/' + encodeURIComponent(nombre)))))
+  Promise.all(ARCHIVOS.map(nombre => {
+    const esLogo = nombre.indexOf('Logo chico') === 0;
+    return prepararPieza('elementos/' + encodeURIComponent(nombre), esLogo)
+      .then(url => urls.set(nombre, url))
+      .catch(() => urls.set(nombre, 'elementos/' + encodeURIComponent(nombre)));
+  }))
     .then(() => {
       PUESTOS.forEach((puesto, i) => {
         const img = document.createElement('img');

@@ -649,7 +649,7 @@ body {
 .festival-title {
   position: relative;
   display: block;
-  width: min(92vw, 720px);
+  width: min(86vw, 500px);
   margin: 0 auto;
   padding: 0;
   z-index: 20;
@@ -660,15 +660,18 @@ body {
   position: relative;
   display: block;
   width: 100%;
-  aspect-ratio: 2851 / 1620;
+  /* Recorte al aerosol (2732×2048, tinta con margen) */
+  aspect-ratio: 1823 / 1635;
 }
 
 .title-logo {
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
+  width: 149.863%;
+  height: 125.26%;
+  left: -26.549%;
+  top: -4.771%;
+  max-width: none;
+  object-fit: fill;
   pointer-events: none;
   user-select: none;
   visibility: hidden;
@@ -676,22 +679,16 @@ body {
 
 .title-logo.listo { visibility: visible; }
 
-/* De adelante hacia atrás: violeta, amarillo, cian */
+/* De adelante hacia atrás: violeta, celeste */
 .logo-purple {
-  z-index: 3;
+  z-index: 2;
   transform: translate(0, 0);
   animation: driftPurple 6.2s ease-in-out infinite;
 }
 
-.logo-yellow {
-  z-index: 2;
-  transform: translate(14px, 10px);
-  animation: driftYellow 5.6s ease-in-out infinite;
-}
-
 .logo-teal {
   z-index: 1;
-  transform: translate(28px, 18px);
+  transform: translate(18px, 12px);
   animation: driftTeal 4.8s ease-in-out infinite;
 }
 
@@ -705,14 +702,9 @@ body {
   50% { transform: translate(3px, -4px) rotate(0.7deg); }
 }
 
-@keyframes driftYellow {
-  0%, 100% { transform: translate(14px, 10px) rotate(0.6deg); }
-  50% { transform: translate(20px, 16px) rotate(-0.8deg); }
-}
-
 @keyframes driftTeal {
-  0%, 100% { transform: translate(28px, 18px) rotate(-1deg); }
-  50% { transform: translate(36px, 26px) rotate(1.2deg); }
+  0%, 100% { transform: translate(18px, 12px) rotate(-1deg); }
+  50% { transform: translate(26px, 20px) rotate(1.2deg); }
 }
 
 .visually-hidden {
