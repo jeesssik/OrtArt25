@@ -42,10 +42,10 @@
               <div class="timeline-time">{{ item.horario }}</div>
               <div class="timeline-artist">{{ item.banda }}</div>
 
-              <div class="timeline-stage" v-if="item.tipo === 'acoustic'">
+              <div class="timeline-stage" v-if="item.escenario && item.tipo === 'acoustic'">
                 Acústico
               </div>
-              <div class="timeline-stage" v-else-if="item.tipo === 'electric'">
+              <div class="timeline-stage" v-else-if="item.escenario && item.tipo === 'electric'">
                 Eléctrico
               </div>
             </div>
@@ -85,9 +85,9 @@
     }
 
     function minutosDeTexto(timeStr) {
-      const partes = String(timeStr || '').trim().split(':').map(Number);
-      if (partes.length < 2 || Number.isNaN(partes[0]) || Number.isNaN(partes[1])) return null;
-      return partes[0] * 60 + partes[1];
+      const m = String(timeStr || '').trim().match(/(\d{1,2})[.:](\d{2})/);
+      if (!m) return null;
+      return Number(m[1]) * 60 + Number(m[2]);
     }
 
     function yParaMinutos(cards, times, minutos) {
@@ -203,7 +203,7 @@
       });
     }
 
-    const SHEET = '2PACX-1vTmWjcpQvintbxgj4x-bJPo2irG-xNyBQ0sV6G6YT-vncGT4nEA6MxOT4gn9hHlGO3P55GgfK5LdOE8';
+    const SHEET = '2PACX-1vSWIQxR2wrG5F_gy0GpObLwD5ObSJ8tiWJ-t-_rVi5kT-VawkpWP9VGRBE5ffPST-UcfWjvUaEYB_8p';
     // La URL /pub?output=csv redirige a googleusercontent.com sin CORS en el salto.
     // pubhtml responde 200 en docs.google.com y el navegador sí puede leerla.
     const SHEET_HTML = 'https://docs.google.com/spreadsheets/d/e/' + SHEET + '/pubhtml/sheet?gid=0&single=true';
@@ -218,7 +218,8 @@
 
     function tipoDe(escenario) {
       const esc = normalizar(escenario);
-      return esc === '1' || esc.includes('electric') ? 'electric' : 'acoustic';
+      if (esc === '2' || esc.includes('electric')) return 'electric';
+      return 'acoustic';
     }
 
     function textoCelda(valor) {
@@ -335,16 +336,16 @@
   mounted() {
     const cargarEventos = () => {
       const fuentes = [
-        () => leerTexto('eventos.csv').then(filasDesdeCsv),
         () => leerTexto(SHEET_HTML).then(filasDesdeHtml),
-        () => leerTexto(SHEET_CSV).then(filasDesdeCsv)
+        () => leerTexto(SHEET_CSV).then(filasDesdeCsv),
+        () => leerTexto('eventos.csv').then(filasDesdeCsv)
       ];
 
       const intentar = (indice, ultimoError) => {
         if (indice >= fuentes.length) {
           console.error('Error cargando la planilla:', ultimoError);
           if (!this.eventos.length) {
-            this.errorCarga = 'No se pudo cargar el line-up desde eventos.csv.';
+            this.errorCarga = 'No se pudo cargar el line-up.';
           }
           return;
         }
